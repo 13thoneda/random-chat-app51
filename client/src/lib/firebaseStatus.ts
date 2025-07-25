@@ -40,7 +40,7 @@ export async function checkFirebaseStatus(): Promise<FirebaseStatus> {
 
   try {
     // Check if Firebase is configured
-    if (!firebaseApp || !db || !storage) {
+    if (!firebaseApp || !storage) {
       status.overall = {
         working: false,
         message: "Firebase not properly configured"
