@@ -63,7 +63,8 @@ export const collection = (path: string, ...pathSegments: string[]) => {
 export const doc = (path: string, ...pathSegments: string[]) => {
   const db = getDatabase();
   if (!db) {
-    throw new Error("Database not available");
+    console.error("Database not available for doc operation, path:", path);
+    throw new Error(`Database not available. Cannot access document: ${path}`);
   }
   return firestoreDoc(db, path, ...pathSegments);
 };
