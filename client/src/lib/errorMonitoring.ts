@@ -263,7 +263,7 @@ export function reportPerformanceMetric(name: string, value: number, context?: R
     }
 
     // Store performance data
-    addDoc(collection(db, 'performance'), {
+    addDoc(collection('performance'), {
       metric: name,
       value,
       context,
