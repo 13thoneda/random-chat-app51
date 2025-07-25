@@ -20,7 +20,13 @@ interface UseAnalyticsReturn {
 }
 
 export function useAnalytics(): UseAnalyticsReturn {
-  const location = useLocation();
+  let location: any = null;
+  try {
+    location = useLocation();
+  } catch (error) {
+    console.warn("useLocation failed, analytics will have limited functionality:", error);
+    location = { pathname: '/', search: '', hash: '' };
+  }
 
   // Initialize analytics session and track page views
   useEffect(() => {
