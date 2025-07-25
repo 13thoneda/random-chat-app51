@@ -148,7 +148,7 @@ export async function sendMessage(chatRoomId: string, senderId: string, senderNa
     const messageDoc = await addDoc(messagesRef, newMessage);
 
     // Update chat room with last message info
-    const chatRoomRef = doc(db, "chatRooms", chatRoomId);
+    const chatRoomRef = doc("chatRooms", chatRoomId);
     await updateDoc(chatRoomRef, {
       lastMessage: {
         text: messageType === 'text' ? message : `📷 ${messageType}`,
@@ -258,7 +258,7 @@ export async function getUserChatRooms(userId: string): Promise<ChatRoom[]> {
  */
 export async function updateChatRoomWallpaper(chatRoomId: string, wallpaper: ChatRoom['wallpaper']): Promise<boolean> {
   try {
-    const chatRoomRef = doc(db, "chatRooms", chatRoomId);
+    const chatRoomRef = doc("chatRooms", chatRoomId);
     await updateDoc(chatRoomRef, {
       wallpaper,
       updatedAt: serverTimestamp()
