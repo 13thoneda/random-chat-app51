@@ -146,6 +146,7 @@ export default function Home() {
       playSound("join");
 
       // Navigate to chat list to see recent conversations
+      console.log("Navigating to chat list...");
       navigate("/chat-list");
 
       setIsConnecting(false);
