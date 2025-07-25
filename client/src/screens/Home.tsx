@@ -147,7 +147,7 @@ export default function Home() {
 
       // Navigate to chat list to see recent conversations
       console.log("Navigating to chat list...");
-      navigate("/chat-list");
+      navigate("/friends");
 
       setIsConnecting(false);
     },
