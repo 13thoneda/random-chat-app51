@@ -21,19 +21,30 @@ import {
 
 // Safe database getter with initialization check
 let dbInstance: any = null;
+let initializationAttempted = false;
 
 const getDatabase = () => {
-  if (!dbInstance) {
+  if (!dbInstance && !initializationAttempted) {
+    initializationAttempted = true;
     try {
       // Dynamic import to avoid circular dependencies
-      const { db } = require("../firebaseConfig");
-      if (!db) {
-        throw new Error("Database not initialized");
+      const firebaseConfig = require("../firebaseConfig");
+      if (firebaseConfig && firebaseConfig.db) {
+        dbInstance = firebaseConfig.db;
+        console.log("✅ Database instance obtained successfully");
+      } else {
+        console.error("❌ Database not found in firebaseConfig");
+        // Wait a bit and try again
+        setTimeout(() => {
+          initializationAttempted = false;
+        }, 1000);
       }
-      dbInstance = db;
     } catch (error) {
       console.error("Failed to get database instance:", error);
-      return null;
+      // Reset flag to allow retry
+      setTimeout(() => {
+        initializationAttempted = false;
+      }, 1000);
     }
   }
   return dbInstance;
@@ -43,7 +54,8 @@ const getDatabase = () => {
 export const collection = (path: string, ...pathSegments: string[]) => {
   const db = getDatabase();
   if (!db) {
-    throw new Error("Database not available");
+    console.error("Database not available for collection operation, path:", path);
+    throw new Error(`Database not available. Cannot access collection: ${path}`);
   }
   return firestoreCollection(db, path, ...pathSegments);
 };
