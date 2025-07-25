@@ -306,8 +306,8 @@ export default function Home() {
                   </div>
                 ) : (
                   <div className="flex items-center justify-center gap-2">
-                    <Video className="h-5 w-5" />
-                    <span>Start Chat</span>
+                    <MessageCircle className="h-5 w-5" />
+                    <span>Open Chats</span>
                     <Sparkles className="h-4 w-4" />
                   </div>
                 )}
