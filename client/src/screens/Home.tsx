@@ -296,14 +296,19 @@ export default function Home() {
                 <h2 className="text-xl font-bold mb-2">Open Chats</h2>
                 <p className="text-white/90 text-sm">View your conversations and meet new people</p>
               </div>
-              <Button
-                className={`w-full py-4 rounded-xl font-semibold text-lg shadow-lg touch-action-manipulation transition-all duration-200 active:scale-95 ${
+              <div
+                className={`w-full py-4 rounded-xl font-semibold text-lg shadow-lg touch-action-manipulation transition-all duration-200 active:scale-95 cursor-pointer ${
                   isUltraPremium()
                     ? 'bg-white text-amber-700 hover:bg-amber-50'
                     : 'bg-white text-purple-600 hover:bg-gray-100'
-                }`}
-                onClick={handleChatListClick}
-                disabled={isConnecting}
+                } ${isConnecting ? 'opacity-50 cursor-not-allowed' : ''}`}
+                onClick={() => {
+                  if (!isConnecting) {
+                    console.log("Chat button clicked - should navigate to friends!");
+                    alert("Going to friends page!");
+                    navigate("/friends");
+                  }
+                }}
               >
                 {isConnecting ? (
                   <div className="flex items-center justify-center gap-2">
@@ -319,7 +324,7 @@ export default function Home() {
                     <Sparkles className="h-4 w-4" />
                   </div>
                 )}
-              </Button>
+              </div>
             </div>
           </div>
 
