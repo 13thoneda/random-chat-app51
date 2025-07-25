@@ -26,6 +26,11 @@ export async function testFirebaseStorageConnection(): Promise<ConnectionTestRes
   try {
     console.log("🔍 Testing Firebase Storage connection...");
 
+    // Check if storage is properly initialized
+    if (!storage) {
+      throw new Error("Firebase Storage not initialized");
+    }
+
     // Test 1: Basic connection (try to create a reference)
     const testRef = ref(storage, "connection-test/test.txt");
 
