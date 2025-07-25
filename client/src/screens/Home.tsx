@@ -369,6 +369,36 @@ export default function Home() {
             <div
               onClick={() => {
                 buttonTap();
+                navigate("/video-chat", { state: { isSearching: true } });
+              }}
+              className={`rounded-xl p-4 shadow-sm border hover:shadow-md transition-all active:scale-95 cursor-pointer ${
+                isUltraPremium()
+                  ? 'bg-gradient-to-br from-blue-50 to-purple-50 border-blue-200/50'
+                  : 'bg-white border-gray-100'
+              }`}
+            >
+              <div className="text-center space-y-2">
+                <div className={`w-12 h-12 rounded-xl flex items-center justify-center mx-auto ${
+                  isUltraPremium()
+                    ? 'bg-blue-100 text-blue-600'
+                    : 'bg-blue-100 text-blue-600'
+                }`}>
+                  <Video className="h-6 w-6" />
+                </div>
+                <div>
+                  <h4 className={`font-semibold ${
+                    isUltraPremium() ? 'text-amber-900' : 'text-gray-900'
+                  }`}>Video Chat</h4>
+                  <p className={`text-xs ${
+                    isUltraPremium() ? 'text-amber-700' : 'text-gray-600'
+                  }`}>Meet new people</p>
+                </div>
+              </div>
+            </div>
+
+            <div
+              onClick={() => {
+                buttonTap();
                 navigate("/ai-chatbot");
               }}
               className={`rounded-xl p-4 shadow-sm border hover:shadow-md transition-all active:scale-95 cursor-pointer ${
