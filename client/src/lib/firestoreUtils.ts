@@ -62,7 +62,7 @@ export interface UserProfile {
  */
 export async function ensureUserDocumentExists(userId: string, initialData?: Partial<UserProfile>): Promise<void> {
   try {
-    const userDocRef = doc(db, "users", userId);
+    const userDocRef = doc("users", userId);
     const userDocSnap = await getDoc(userDocRef);
 
     if (!userDocSnap.exists()) {
@@ -121,7 +121,7 @@ export async function ensureUserDocumentExists(userId: string, initialData?: Par
  */
 export async function getCoins(userId: string): Promise<number> {
   try {
-    const userDocRef = doc(db, "users", userId);
+    const userDocRef = doc("users", userId);
     const userDocSnap = await getDoc(userDocRef);
 
     if (userDocSnap.exists()) {
@@ -141,7 +141,7 @@ export async function getCoins(userId: string): Promise<number> {
  */
 export async function addCoins(userId: string, amount: number): Promise<void> {
   try {
-    const userDocRef = doc(db, "users", userId);
+    const userDocRef = doc("users", userId);
     
     // Ensure user document exists first
     await ensureUserDocumentExists(userId);
@@ -164,7 +164,7 @@ export async function addCoins(userId: string, amount: number): Promise<void> {
  */
 export async function spendCoins(userId: string, amount: number): Promise<{ success: boolean; message: string }> {
   try {
-    const userDocRef = doc(db, "users", userId);
+    const userDocRef = doc("users", userId);
     const userDocSnap = await getDoc(userDocRef);
 
     if (!userDocSnap.exists()) {
@@ -197,7 +197,7 @@ export async function spendCoins(userId: string, amount: number): Promise<{ succ
  */
 export async function getUserProfile(userId: string): Promise<UserProfile | null> {
   try {
-    const userDocRef = doc(db, "users", userId);
+    const userDocRef = doc("users", userId);
     const userDocSnap = await getDoc(userDocRef);
 
     if (userDocSnap.exists()) {
@@ -215,7 +215,7 @@ export async function getUserProfile(userId: string): Promise<UserProfile | null
  */
 export async function updateUserProfile(userId: string, updates: Partial<UserProfile>): Promise<boolean> {
   try {
-    const userDocRef = doc(db, "users", userId);
+    const userDocRef = doc("users", userId);
 
     // Always include updatedAt timestamp
     const updatesWithTimestamp = {
@@ -237,7 +237,7 @@ export async function updateUserProfile(userId: string, updates: Partial<UserPro
  */
 export async function updateUserOnlineStatus(userId: string, isOnline: boolean): Promise<void> {
   try {
-    const userDocRef = doc(db, "users", userId);
+    const userDocRef = doc("users", userId);
     await updateDoc(userDocRef, {
       isOnline,
       lastSeen: serverTimestamp(),
@@ -253,7 +253,7 @@ export async function updateUserOnlineStatus(userId: string, isOnline: boolean):
  */
 export async function completeOnboarding(userId: string, profileData: Partial<UserProfile>): Promise<boolean> {
   try {
-    const userDocRef = doc(db, "users", userId);
+    const userDocRef = doc("users", userId);
     await updateDoc(userDocRef, {
       ...profileData,
       onboardingComplete: true,
@@ -272,7 +272,7 @@ export async function completeOnboarding(userId: string, profileData: Partial<Us
  */
 export async function updatePremiumStatus(userId: string, isPremium: boolean, expiryDate?: Date, plan?: string): Promise<boolean> {
   try {
-    const userDocRef = doc(db, "users", userId);
+    const userDocRef = doc("users", userId);
     const updates: any = {
       isPremium,
       updatedAt: serverTimestamp()
@@ -300,7 +300,7 @@ export async function updatePremiumStatus(userId: string, isPremium: boolean, ex
  */
 export async function addUserInterest(userId: string, interest: string): Promise<boolean> {
   try {
-    const userDocRef = doc(db, "users", userId);
+    const userDocRef = doc("users", userId);
     await updateDoc(userDocRef, {
       interests: arrayUnion(interest),
       updatedAt: serverTimestamp()
@@ -317,7 +317,7 @@ export async function addUserInterest(userId: string, interest: string): Promise
  */
 export async function removeUserInterest(userId: string, interest: string): Promise<boolean> {
   try {
-    const userDocRef = doc(db, "users", userId);
+    const userDocRef = doc("users", userId);
     await updateDoc(userDocRef, {
       interests: arrayRemove(interest),
       updatedAt: serverTimestamp()
@@ -334,7 +334,7 @@ export async function removeUserInterest(userId: string, interest: string): Prom
  */
 export async function updateUserSettings(userId: string, settings: Partial<UserProfile['settings']>): Promise<boolean> {
   try {
-    const userDocRef = doc(db, "users", userId);
+    const userDocRef = doc("users", userId);
     const userDoc = await getDoc(userDocRef);
 
     if (userDoc.exists()) {
