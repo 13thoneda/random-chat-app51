@@ -135,6 +135,12 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
+  const handleChatListClick = () => {
+    console.log("Chat button clicked!");
+    alert("Chat button clicked - going to friends page");
+    navigate("/friends");
+  };
+
   const handleStartCall = useCallback(
     async (e: React.MouseEvent<HTMLButtonElement>) => {
       e.preventDefault();
