@@ -68,7 +68,7 @@ export const CoinProvider = ({ children }: CoinProviderProps) => {
   }, [auth]);
 
   // Set up real-time listener for user's coin balance
-  useEffect(() => {
+  React.useEffect(() => {
     if (!currentUser) return;
 
     const userDocRef = doc(db, "users", currentUser);
