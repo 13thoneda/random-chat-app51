@@ -110,6 +110,9 @@ export default function VideoChat() {
   );
   const [myStayResponse, setMyStayResponse] = useState<boolean | null>(null);
   const [partnerName, setPartnerName] = useState("Stranger");
+  const [partnerAge, setPartnerAge] = useState<number>(25);
+  const [partnerLocation, setPartnerLocation] = useState("Unknown Location");
+  const [partnerImage, setPartnerImage] = useState<string>("");
   const [isFriendCall, setIsFriendCall] = useState(false);
   const [friendNotification, setFriendNotification] = useState<{
     show: boolean;
