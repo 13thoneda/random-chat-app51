@@ -65,7 +65,7 @@ export async function sendFriendRequest(fromUserId: string, fromUserName: string
   try {
     // Check if request already exists
     const existingRequestQuery = query(
-      collection(db, "friendRequests"),
+      collection("friendRequests"),
       where("fromUserId", "==", fromUserId),
       where("toUserId", "==", toUserId),
       where("status", "==", "pending")
@@ -79,7 +79,7 @@ export async function sendFriendRequest(fromUserId: string, fromUserName: string
 
     // Check reverse request
     const reverseRequestQuery = query(
-      collection(db, "friendRequests"),
+      collection("friendRequests"),
       where("fromUserId", "==", toUserId),
       where("toUserId", "==", fromUserId),
       where("status", "==", "pending")
@@ -103,7 +103,7 @@ export async function sendFriendRequest(fromUserId: string, fromUserName: string
       updatedAt: serverTimestamp() as Timestamp
     };
 
-    await addDoc(collection(db, "friendRequests"), friendRequest);
+    await addDoc(collection("friendRequests"), friendRequest);
     console.log("✅ Friend request sent");
     return true;
   } catch (error) {
@@ -286,7 +286,7 @@ export async function getUserFriends(userId: string): Promise<Friend[]> {
 export async function getPendingFriendRequests(userId: string): Promise<FriendRequest[]> {
   try {
     const requestsQuery = query(
-      collection(db, "friendRequests"),
+      collection("friendRequests"),
       where("toUserId", "==", userId),
       where("status", "==", "pending"),
       orderBy("createdAt", "desc")
@@ -312,7 +312,7 @@ export async function getPendingFriendRequests(userId: string): Promise<FriendRe
 export async function getSentFriendRequests(userId: string): Promise<FriendRequest[]> {
   try {
     const requestsQuery = query(
-      collection(db, "friendRequests"),
+      collection("friendRequests"),
       where("fromUserId", "==", userId),
       where("status", "==", "pending"),
       orderBy("createdAt", "desc")
@@ -338,7 +338,7 @@ export async function getSentFriendRequests(userId: string): Promise<FriendReque
 export function listenToFriendRequests(userId: string, callback: (requests: FriendRequest[]) => void): () => void {
   try {
     const requestsQuery = query(
-      collection(db, "friendRequests"),
+      collection("friendRequests"),
       where("toUserId", "==", userId),
       where("status", "==", "pending"),
       orderBy("createdAt", "desc")
