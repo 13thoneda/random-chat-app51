@@ -168,6 +168,7 @@ function App() {
             <Route path="/video-chat" element={<VideoChat />} />
             <Route path="/voice" element={<VoicePage />} />
             <Route path="/personal-chat" element={<PersonalChat />} />
+            <Route path="/chat-list" element={<ChatListPage />} />
             <Route path="/chat" element={<ChatPage />} />
             <Route path="/friends" element={<FriendsPage />} />
             <Route path="/profile" element={<ProfilePage />} />
