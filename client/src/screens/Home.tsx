@@ -302,7 +302,7 @@ export default function Home() {
                     ? 'bg-white text-amber-700 hover:bg-amber-50'
                     : 'bg-white text-purple-600 hover:bg-gray-100'
                 }`}
-                onClick={handleStartCall}
+                onClick={handleChatListClick}
                 disabled={isConnecting}
               >
                 {isConnecting ? (
