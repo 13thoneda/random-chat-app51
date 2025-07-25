@@ -11,6 +11,7 @@ import ReferToUnlock from "./screens/ReferToUnlock";
 import ReferralCodeScreen from "./screens/ReferralCode";
 import GenderSelect from "./screens/GenderSelect";
 import ChatPage from "./screens/ChatPage";
+import ChatListPage from "./screens/ChatListPage";
 import VoicePage from "./screens/VoicePage";
 import HomePage from "./screens/HomePage";
 import ProfilePage from "./screens/ProfilePage";
