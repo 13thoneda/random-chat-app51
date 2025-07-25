@@ -10,9 +10,9 @@ interface SplashScreenProps {
 }
 
 export default function SplashScreen({ onComplete }: SplashScreenProps) {
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = React.useState(true);
   console.log("SplashScreen rendered");
-  const [connectionStatus, setConnectionStatus] = useState<{
+  const [connectionStatus, setConnectionStatus] = React.useState<{
     isTestingConnection: boolean;
     connectionResult: ConnectionTestResult | null;
     showConnectionTest: boolean;
@@ -22,7 +22,7 @@ export default function SplashScreen({ onComplete }: SplashScreenProps) {
     showConnectionTest: false,
   });
 
-  useEffect(() => {
+  React.useEffect(() => {
     // Start connection test after 1 second
     const connectionTimer = setTimeout(() => {
       setConnectionStatus((prev) => ({
