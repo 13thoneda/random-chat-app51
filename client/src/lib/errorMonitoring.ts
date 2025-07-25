@@ -107,7 +107,7 @@ class ErrorMonitoring {
       }
 
       // Store in Firestore for analysis
-      await addDoc(collection(db, 'errors'), {
+      await addDoc(collection('errors'), {
         ...error,
         environment: import.meta.env.MODE,
         timestamp: serverTimestamp(),
