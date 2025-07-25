@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import * as React from "react";
 
 export type Language = 'en' | 'hi' | 'bn' | 'te' | 'mr' | 'ta' | 'gu' | 'ur' | 'kn' | 'ml' | 'pa' | 'es' | 'fr' | 'de' | 'pt' | 'ar' | 'zh';
 
@@ -28,10 +28,10 @@ interface LanguageContextType {
   t: (key: string) => string;
 }
 
-const LanguageContext = createContext<LanguageContextType | null>(null);
+const LanguageContext = React.createContext<LanguageContextType | null>(null);
 
 export const useLanguage = () => {
-  const context = useContext(LanguageContext);
+  const context = React.useContext(LanguageContext);
   if (!context) {
     throw new Error("useLanguage must be used within a LanguageProvider");
   }
@@ -39,10 +39,9 @@ export const useLanguage = () => {
 };
 
 interface LanguageProviderProps {
-  children: ReactNode;
+  children: React.ReactNode;
 }
 
-// Simplified translations for now
 const translations: Record<Language, Record<string, string>> = {
   'en': {
     'app.name': 'AjnabiCam',
@@ -87,11 +86,11 @@ const translations: Record<Language, Record<string, string>> = {
   'zh': { 'app.name': 'AjnabiCam' },
 };
 
-export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) => {
-  const [language, setLanguageState] = useState<Language>('en');
+export function LanguageProvider({ children }: LanguageProviderProps) {
+  const [language, setLanguageState] = React.useState<Language>('en');
 
   // Load saved language on mount
-  useEffect(() => {
+  React.useEffect(() => {
     try {
       const savedLanguage = localStorage.getItem('ajnabicam_language') as Language;
       if (savedLanguage && translations[savedLanguage]) {
@@ -102,16 +101,16 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
     }
   }, []);
 
-  const setLanguage = (lang: Language) => {
+  const setLanguage = React.useCallback((lang: Language) => {
     try {
       setLanguageState(lang);
       localStorage.setItem('ajnabicam_language', lang);
     } catch (error) {
       console.warn('Error saving language:', error);
     }
-  };
+  }, []);
 
-  const t = (key: string): string => {
+  const t = React.useCallback((key: string): string => {
     try {
       const translation = translations[language]?.[key] || translations['en']?.[key];
       return translation || key;
@@ -119,11 +118,17 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
       console.warn('Error translating key:', key, error);
       return key;
     }
-  };
+  }, [language]);
+
+  const value = React.useMemo(() => ({
+    language,
+    setLanguage,
+    t
+  }), [language, setLanguage, t]);
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, t }}>
+    <LanguageContext.Provider value={value}>
       {children}
     </LanguageContext.Provider>
   );
-};
+}
