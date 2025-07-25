@@ -159,7 +159,7 @@ export async function acceptFriendRequest(requestId: string): Promise<boolean> {
     await addDoc(collection("friends"), friendship2);
 
     // Update friend counts
-    const user1Ref = doc(db, "users", requestData.fromUserId);
+    const user1Ref = doc("users", requestData.fromUserId);
     const user2Ref = doc(db, "users", requestData.toUserId);
     
     await updateDoc(user1Ref, {
