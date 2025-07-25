@@ -47,10 +47,10 @@ interface FriendsContextType {
   refreshFriendsData: () => Promise<void>;
 }
 
-const FriendsContext = createContext<FriendsContextType | null>(null);
+const FriendsContext = React.createContext<FriendsContextType | null>(null);
 
 export const useFriends = () => {
-  const context = useContext(FriendsContext);
+  const context = React.useContext(FriendsContext);
   if (!context) {
     throw new Error("useFriends must be used within a FriendsProvider");
   }
