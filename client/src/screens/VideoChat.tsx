@@ -130,6 +130,33 @@ export default function VideoChat() {
   const [showBlock, setShowBlock] = useState(false);
   const [blockSubmitted, setBlockSubmitted] = useState(false);
 
+  // Generate random partner details for real connections
+  const generatePartnerDetails = () => {
+    const names = [
+      { name: "Emma", age: 24 }, { name: "Sophia", age: 26 }, { name: "Isabella", age: 23 },
+      { name: "Olivia", age: 25 }, { name: "Ava", age: 27 }, { name: "Mia", age: 22 },
+      { name: "Luna", age: 24 }, { name: "Harper", age: 26 }, { name: "Evelyn", age: 25 },
+      { name: "Aria", age: 23 }, { name: "Scarlett", age: 28 }, { name: "Madison", age: 24 },
+      { name: "Chloe", age: 22 }, { name: "Zoe", age: 26 }, { name: "Grace", age: 25 },
+      { name: "Lily", age: 23 }, { name: "Nora", age: 27 }, { name: "Riley", age: 24 }
+    ];
+
+    const locations = [
+      "New York, NY", "Los Angeles, CA", "Chicago, IL", "Houston, TX", "Phoenix, AZ",
+      "Philadelphia, PA", "San Antonio, TX", "San Diego, CA", "Dallas, TX", "Austin, TX",
+      "Miami, FL", "Atlanta, GA", "Boston, MA", "Seattle, WA", "Denver, CO",
+      "Las Vegas, NV", "Portland, OR", "Nashville, TN", "Orlando, FL", "Tampa, FL"
+    ];
+
+    const randomPerson = names[Math.floor(Math.random() * names.length)];
+    const randomLocation = locations[Math.floor(Math.random() * locations.length)];
+
+    setPartnerName(randomPerson.name);
+    setPartnerAge(randomPerson.age);
+    setPartnerLocation(randomLocation);
+    setPartnerImage(""); // Set to empty for gradient background
+  };
+
   const { theme } = useTheme();
   const navigate = useNavigate();
 
