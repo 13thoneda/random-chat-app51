@@ -117,7 +117,7 @@ export async function sendFriendRequest(fromUserId: string, fromUserName: string
  */
 export async function acceptFriendRequest(requestId: string): Promise<boolean> {
   try {
-    const requestRef = doc(db, "friendRequests", requestId);
+    const requestRef = doc("friendRequests", requestId);
     const requestSnap = await getDoc(requestRef);
     
     if (!requestSnap.exists()) {
@@ -185,7 +185,7 @@ export async function acceptFriendRequest(requestId: string): Promise<boolean> {
  */
 export async function rejectFriendRequest(requestId: string): Promise<boolean> {
   try {
-    const requestRef = doc(db, "friendRequests", requestId);
+    const requestRef = doc("friendRequests", requestId);
     await updateDoc(requestRef, {
       status: 'rejected',
       updatedAt: serverTimestamp()
