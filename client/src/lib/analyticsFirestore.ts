@@ -13,8 +13,8 @@ import {
   limit,
   getDocs,
   increment
-} from "firebase/firestore";
-import { db, analytics } from "../firebaseConfig";
+} from "./firestoreWrapper";
+import { analytics } from "../firebaseConfig";
 import { logEvent, setUserId, setUserProperties } from "firebase/analytics";
 
 // Types for analytics
@@ -119,7 +119,7 @@ export async function startUserSession(userId: string): Promise<string> {
       interactions: 0
     };
 
-    const sessionDoc = await addDoc(collection(db, "userSessions"), sessionData);
+    const sessionDoc = await addDoc(collection("userSessions"), sessionData);
     
     // Log to Firebase Analytics if available
     if (analytics) {
@@ -153,7 +153,7 @@ export async function endUserSession(sessionId?: string): Promise<boolean> {
 
     // Find session document
     const sessionsQuery = query(
-      collection(db, "userSessions"),
+      collection("userSessions"),
       where("sessionId", "==", currentSessionId),
       limit(1)
     );
@@ -213,12 +213,12 @@ export async function trackUserInteraction(
       userAgent: navigator.userAgent
     };
 
-    await addDoc(collection(db, "userInteractions"), interaction);
+    await addDoc(collection("userInteractions"), interaction);
 
     // Update session interaction count
     if (sessionId !== 'unknown') {
       const sessionsQuery = query(
-        collection(db, "userSessions"),
+        collection("userSessions"),
         where("sessionId", "==", sessionId),
         limit(1)
       );
@@ -273,7 +273,7 @@ export async function startChatSession(
       connectionQuality: 'good'
     };
 
-    const chatSessionDoc = await addDoc(collection(db, "chatSessionAnalytics"), chatSessionData);
+    const chatSessionDoc = await addDoc(collection("chatSessionAnalytics"), chatSessionData);
     
     // Log to Firebase Analytics
     if (analytics) {
@@ -305,7 +305,7 @@ export async function endChatSession(
   reportIssues?: boolean
 ): Promise<boolean> {
   try {
-    const chatSessionRef = doc(db, "chatSessionAnalytics", chatSessionId);
+    const chatSessionRef = doc("chatSessionAnalytics", chatSessionId);
     const chatSessionSnap = await getDoc(chatSessionRef);
     
     if (!chatSessionSnap.exists()) return false;
@@ -361,7 +361,7 @@ export async function trackFeatureUsage(
       sessionId
     };
 
-    await addDoc(collection(db, "featureUsage"), featureUsage);
+    await addDoc(collection("featureUsage"), featureUsage);
 
     // Log to Firebase Analytics
     if (analytics) {
@@ -387,7 +387,7 @@ export async function trackFeatureUsage(
 export async function updateDailyMetrics(userId: string, metrics: Partial<UserBehaviorMetrics>): Promise<boolean> {
   try {
     const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
-    const metricsRef = doc(db, "userBehaviorMetrics", `${userId}_${today}`);
+    const metricsRef = doc("userBehaviorMetrics", `${userId}_${today}`);
     
     const existingMetrics = await getDoc(metricsRef);
     
@@ -477,7 +477,7 @@ export async function trackPageView(userId: string, page: string, title?: string
     // Update session page views
     if (sessionId !== 'unknown') {
       const sessionsQuery = query(
-        collection(db, "userSessions"),
+        collection("userSessions"),
         where("sessionId", "==", sessionId),
         limit(1)
       );

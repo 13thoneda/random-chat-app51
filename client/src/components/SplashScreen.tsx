@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import * as React from "react";
 import { CheckCircle, XCircle, Wifi, Database } from "lucide-react";
 import {
   testFirebaseStorageConnection,
@@ -10,9 +10,9 @@ interface SplashScreenProps {
 }
 
 export default function SplashScreen({ onComplete }: SplashScreenProps) {
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = React.useState(true);
   console.log("SplashScreen rendered");
-  const [connectionStatus, setConnectionStatus] = useState<{
+  const [connectionStatus, setConnectionStatus] = React.useState<{
     isTestingConnection: boolean;
     connectionResult: ConnectionTestResult | null;
     showConnectionTest: boolean;
@@ -22,7 +22,7 @@ export default function SplashScreen({ onComplete }: SplashScreenProps) {
     showConnectionTest: false,
   });
 
-  useEffect(() => {
+  React.useEffect(() => {
     // Start connection test after 1 second
     const connectionTimer = setTimeout(() => {
       setConnectionStatus((prev) => ({
@@ -31,7 +31,11 @@ export default function SplashScreen({ onComplete }: SplashScreenProps) {
         showConnectionTest: true,
       }));
 
-      testFirebaseStorageConnection()
+      Promise.resolve({
+        isConnected: false,
+        status: "error" as const,
+        message: "Firebase temporarily disabled for testing"
+      })
         .then((result) => {
           setConnectionStatus((prev) => ({
             ...prev,

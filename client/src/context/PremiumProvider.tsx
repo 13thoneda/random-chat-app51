@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import * as React from "react";
 import { auth } from "../firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
 import { getUserProfile, updatePremiumStatus } from "../lib/firestoreUtils";
@@ -15,10 +15,10 @@ interface PremiumContextType {
   isProMonthly: () => boolean;
 }
 
-const PremiumContext = createContext<PremiumContextType | null>(null);
+const PremiumContext = React.createContext<PremiumContextType | null>(null);
 
 export const usePremium = () => {
-  const context = useContext(PremiumContext);
+  const context = React.useContext(PremiumContext);
   if (!context) {
     throw new Error("usePremium must be used within a PremiumProvider");
   }
@@ -26,18 +26,18 @@ export const usePremium = () => {
 };
 
 interface PremiumProviderProps {
-  children: ReactNode;
+  children: React.ReactNode;
 }
 
 export const PremiumProvider = ({ children }: PremiumProviderProps) => {
-  const [isPremium, setIsPremium] = useState(false);
-  const [premiumExpiry, setPremiumExpiry] = useState<Date | null>(null);
-  const [premiumPlan, setPremiumPlan] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+  const [isPremium, setIsPremium] = React.useState(false);
+  const [premiumExpiry, setPremiumExpiry] = React.useState<Date | null>(null);
+  const [premiumPlan, setPremiumPlan] = React.useState<string | null>(null);
+  const [loading, setLoading] = React.useState(true);
+  const [currentUserId, setCurrentUserId] = React.useState<string | null>(null);
 
   // Monitor auth state and sync premium status
-  useEffect(() => {
+  React.useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         setCurrentUserId(user.uid);

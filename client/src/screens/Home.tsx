@@ -23,6 +23,7 @@ import {
   Gem,
   Settings,
   Bot,
+  MessageCircle,
 } from "lucide-react";
 import GenderFilter from "../components/GenderFilter";
 // import PremiumPaywall from "../components/PremiumPaywall"; // Now using separate page
@@ -134,6 +135,12 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
+  const handleChatListClick = () => {
+    console.log("Chat button clicked!");
+    alert("Chat button clicked - going to friends page");
+    navigate("/friends");
+  };
+
   const handleStartCall = useCallback(
     async (e: React.MouseEvent<HTMLButtonElement>) => {
       e.preventDefault();
@@ -144,12 +151,9 @@ export default function Home() {
       setIsConnecting(true);
       playSound("join");
 
-      // Navigate immediately to video chat page (it will handle the waiting state)
-      navigate("/video-chat", {
-        state: {
-          isSearching: true,
-        },
-      });
+      // Navigate to chat list to see recent conversations
+      console.log("Navigating to chat list...");
+      navigate("/friends");
 
       setIsConnecting(false);
     },
@@ -289,17 +293,22 @@ export default function Home() {
                 </div>
               </div>
               <div>
-                <h2 className="text-xl font-bold mb-2">Start Video Chat</h2>
-                <p className="text-white/90 text-sm">Connect with amazing people worldwide</p>
+                <h2 className="text-xl font-bold mb-2">Open Chats</h2>
+                <p className="text-white/90 text-sm">View your conversations and meet new people</p>
               </div>
-              <Button
-                className={`w-full py-4 rounded-xl font-semibold text-lg shadow-lg touch-action-manipulation transition-all duration-200 active:scale-95 ${
+              <div
+                className={`w-full py-4 rounded-xl font-semibold text-lg shadow-lg touch-action-manipulation transition-all duration-200 active:scale-95 cursor-pointer ${
                   isUltraPremium()
                     ? 'bg-white text-amber-700 hover:bg-amber-50'
                     : 'bg-white text-purple-600 hover:bg-gray-100'
-                }`}
-                onClick={handleStartCall}
-                disabled={isConnecting}
+                } ${isConnecting ? 'opacity-50 cursor-not-allowed' : ''}`}
+                onClick={() => {
+                  if (!isConnecting) {
+                    console.log("Chat button clicked - should navigate to friends!");
+                    alert("Going to friends page!");
+                    navigate("/friends");
+                  }
+                }}
               >
                 {isConnecting ? (
                   <div className="flex items-center justify-center gap-2">
@@ -310,12 +319,12 @@ export default function Home() {
                   </div>
                 ) : (
                   <div className="flex items-center justify-center gap-2">
-                    <Video className="h-5 w-5" />
-                    <span>Start Chat</span>
+                    <MessageCircle className="h-5 w-5" />
+                    <span>Open Chats</span>
                     <Sparkles className="h-4 w-4" />
                   </div>
                 )}
-              </Button>
+              </div>
             </div>
           </div>
 
@@ -365,6 +374,36 @@ export default function Home() {
                   <p className={`text-xs ${
                     isUltraPremium() ? 'text-amber-700' : 'text-gray-600'
                   }`}>Connect with buddies</p>
+                </div>
+              </div>
+            </div>
+
+            <div
+              onClick={() => {
+                buttonTap();
+                navigate("/video-chat", { state: { isSearching: true } });
+              }}
+              className={`rounded-xl p-4 shadow-sm border hover:shadow-md transition-all active:scale-95 cursor-pointer ${
+                isUltraPremium()
+                  ? 'bg-gradient-to-br from-blue-50 to-purple-50 border-blue-200/50'
+                  : 'bg-white border-gray-100'
+              }`}
+            >
+              <div className="text-center space-y-2">
+                <div className={`w-12 h-12 rounded-xl flex items-center justify-center mx-auto ${
+                  isUltraPremium()
+                    ? 'bg-blue-100 text-blue-600'
+                    : 'bg-blue-100 text-blue-600'
+                }`}>
+                  <Video className="h-6 w-6" />
+                </div>
+                <div>
+                  <h4 className={`font-semibold ${
+                    isUltraPremium() ? 'text-amber-900' : 'text-gray-900'
+                  }`}>Video Chat</h4>
+                  <p className={`text-xs ${
+                    isUltraPremium() ? 'text-amber-700' : 'text-gray-600'
+                  }`}>Meet new people</p>
                 </div>
               </div>
             </div>

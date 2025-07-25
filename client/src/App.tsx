@@ -11,6 +11,7 @@ import ReferToUnlock from "./screens/ReferToUnlock";
 import ReferralCodeScreen from "./screens/ReferralCode";
 import GenderSelect from "./screens/GenderSelect";
 import ChatPage from "./screens/ChatPage";
+import ChatListPage from "./screens/ChatListPage";
 import VoicePage from "./screens/VoicePage";
 import HomePage from "./screens/HomePage";
 import ProfilePage from "./screens/ProfilePage";
@@ -67,11 +68,8 @@ function App() {
   }
 
   // Initialize analytics with error handling
-  try {
-    useAnalytics();
-  } catch (error) {
-    console.error("Analytics initialization failed:", error);
-  }
+  // Analytics hook - must be called at top level
+  const analytics = useAnalytics();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -167,6 +165,7 @@ function App() {
             <Route path="/video-chat" element={<VideoChat />} />
             <Route path="/voice" element={<VoicePage />} />
             <Route path="/personal-chat" element={<PersonalChat />} />
+            <Route path="/chat-list" element={<ChatListPage />} />
             <Route path="/chat" element={<ChatPage />} />
             <Route path="/friends" element={<FriendsPage />} />
             <Route path="/profile" element={<ProfilePage />} />

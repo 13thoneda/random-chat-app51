@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react"
+import * as React from "react";
 
 type Theme = "dark" | "light" | "system"
 
@@ -18,7 +18,7 @@ const initialState: ThemeProviderState = {
   setTheme: () => null,
 }
 
-const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
+const ThemeProviderContext = React.createContext<ThemeProviderState>(initialState)
 
 export function ThemeProvider({
   children,
@@ -26,35 +26,48 @@ export function ThemeProvider({
   storageKey = "vite-ui-theme",
   ...props
 }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(
-    () => (localStorage.getItem(storageKey) as Theme) || defaultTheme
-  )
-
-  useEffect(() => {
-    const root = window.document.documentElement
-
-    root.classList.remove("light", "dark")
-
-    if (theme === "system") {
-      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
-        .matches
-        ? "dark"
-        : "light"
-
-      root.classList.add(systemTheme)
-      return
+  const [theme, setTheme] = React.useState<Theme>(() => {
+    try {
+      return (localStorage.getItem(storageKey) as Theme) || defaultTheme;
+    } catch {
+      return defaultTheme;
     }
+  });
 
-    root.classList.add(theme)
+  React.useEffect(() => {
+    try {
+      const root = window.document.documentElement
+
+      root.classList.remove("light", "dark")
+
+      if (theme === "system") {
+        const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
+          .matches
+          ? "dark"
+          : "light"
+
+        root.classList.add(systemTheme)
+        return
+      }
+
+      root.classList.add(theme)
+    } catch (error) {
+      console.warn("Error applying theme:", error);
+    }
   }, [theme])
 
-  const value = {
+  const value = React.useMemo(() => ({
     theme,
     setTheme: (theme: Theme) => {
-      localStorage.setItem(storageKey, theme)
-      setTheme(theme)
+      try {
+        localStorage.setItem(storageKey, theme);
+        setTheme(theme);
+      } catch (error) {
+        console.warn("Error saving theme:", error);
+        setTheme(theme);
+      }
     },
-  }
+  }), [theme, storageKey]);
 
   return (
     <ThemeProviderContext.Provider {...props} value={value}>
@@ -63,9 +76,8 @@ export function ThemeProvider({
   )
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
 export const useTheme = () => {
-  const context = useContext(ThemeProviderContext)
+  const context = React.useContext(ThemeProviderContext)
 
   if (context === undefined)
     throw new Error("useTheme must be used within a ThemeProvider")

@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import * as React from "react";
 import { auth } from "../firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
 import { usePremium } from "./PremiumProvider";
@@ -47,10 +47,10 @@ interface FriendsContextType {
   refreshFriendsData: () => Promise<void>;
 }
 
-const FriendsContext = createContext<FriendsContextType | null>(null);
+const FriendsContext = React.createContext<FriendsContextType | null>(null);
 
 export const useFriends = () => {
-  const context = useContext(FriendsContext);
+  const context = React.useContext(FriendsContext);
   if (!context) {
     throw new Error("useFriends must be used within a FriendsProvider");
   }
@@ -58,28 +58,28 @@ export const useFriends = () => {
 };
 
 interface FriendsProviderProps {
-  children: ReactNode;
+  children: React.ReactNode;
 }
 
 export const FriendsProvider = ({ children }: FriendsProviderProps) => {
-  const [friends, setFriends] = useState<Friend[]>([]);
-  const [friendRequests, setFriendRequests] = useState<FriendRequest[]>([]);
-  const [friendsStats, setFriendsStats] = useState<FriendsStats>({
+  const [friends, setFriends] = React.useState<Friend[]>([]);
+  const [friendRequests, setFriendRequests] = React.useState<FriendRequest[]>([]);
+  const [friendsStats, setFriendsStats] = React.useState<FriendsStats>({
     totalFriends: 0,
     onlineFriends: 0,
     pendingRequests: 0,
     sentRequests: 0,
     mutualConnections: 0
   });
-  const [loading, setLoading] = useState(true);
-  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+  const [loading, setLoading] = React.useState(true);
+  const [currentUserId, setCurrentUserId] = React.useState<string | null>(null);
   const [currentUserName, setCurrentUserName] = useState<string>("User");
 
   const { isPremium } = usePremium();
   const maxFreeLimit = 3;
 
   // Monitor auth state
-  useEffect(() => {
+  React.useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setCurrentUserId(user.uid);
@@ -97,7 +97,7 @@ export const FriendsProvider = ({ children }: FriendsProviderProps) => {
   }, []);
 
   // Set up real-time friends listener
-  useEffect(() => {
+  React.useEffect(() => {
     if (!currentUserId) return;
 
     setLoading(true);

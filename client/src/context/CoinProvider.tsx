@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import * as React from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { doc, onSnapshot } from "firebase/firestore";
 import { firebaseApp, db } from "../firebaseConfig";
@@ -25,10 +25,10 @@ interface CoinContextType {
   setPendingAds: (count: number) => void;
 }
 
-const CoinContext = createContext<CoinContextType | null>(null);
+const CoinContext = React.createContext<CoinContextType | null>(null);
 
 export const useCoin = () => {
-  const context = useContext(CoinContext);
+  const context = React.useContext(CoinContext);
   if (!context) {
     throw new Error("useCoin must be used within a CoinProvider");
   }
@@ -36,24 +36,24 @@ export const useCoin = () => {
 };
 
 interface CoinProviderProps {
-  children: ReactNode;
+  children: React.ReactNode;
 }
 
 export const CoinProvider = ({ children }: CoinProviderProps) => {
-  const [coins, setCoins] = useState(0);
-  const [adsWatchedToday, setAdsWatchedToday] = useState(0);
-  const [canClaimDailyBonus, setCanClaimDailyBonus] = useState(true);
-  const [currentStreak, setCurrentStreak] = useState(0);
-  const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [currentUser, setCurrentUser] = useState<string | null>(null);
+  const [coins, setCoins] = React.useState(0);
+  const [adsWatchedToday, setAdsWatchedToday] = React.useState(0);
+  const [canClaimDailyBonus, setCanClaimDailyBonus] = React.useState(true);
+  const [currentStreak, setCurrentStreak] = React.useState(0);
+  const [hasCompletedOnboarding, setHasCompletedOnboarding] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(true);
+  const [currentUser, setCurrentUser] = React.useState<string | null>(null);
   const [pendingAds, setPendingAds] = useState(0);
 
   const maxAdsPerDay = 3;
   const auth = getAuth(firebaseApp);
 
   // Listen for auth state changes
-  useEffect(() => {
+  React.useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setCurrentUser(user.uid);
@@ -68,7 +68,7 @@ export const CoinProvider = ({ children }: CoinProviderProps) => {
   }, [auth]);
 
   // Set up real-time listener for user's coin balance
-  useEffect(() => {
+  React.useEffect(() => {
     if (!currentUser) return;
 
     const userDocRef = doc(db, "users", currentUser);
@@ -88,7 +88,7 @@ export const CoinProvider = ({ children }: CoinProviderProps) => {
   }, [currentUser]);
 
   // Initialize local storage data (ads, daily bonus, streak, pending ads)
-  useEffect(() => {
+  React.useEffect(() => {
     const lastDailyBonus = localStorage.getItem("ajnabicam_last_daily_bonus");
     const adsToday = localStorage.getItem("ajnabicam_ads_today");
     const adsDate = localStorage.getItem("ajnabicam_ads_date");

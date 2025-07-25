@@ -110,6 +110,9 @@ export default function VideoChat() {
   );
   const [myStayResponse, setMyStayResponse] = useState<boolean | null>(null);
   const [partnerName, setPartnerName] = useState("Stranger");
+  const [partnerAge, setPartnerAge] = useState<number>(25);
+  const [partnerLocation, setPartnerLocation] = useState("Unknown Location");
+  const [partnerImage, setPartnerImage] = useState<string>("");
   const [isFriendCall, setIsFriendCall] = useState(false);
   const [friendNotification, setFriendNotification] = useState<{
     show: boolean;
@@ -126,6 +129,33 @@ export default function VideoChat() {
   // Blocking state
   const [showBlock, setShowBlock] = useState(false);
   const [blockSubmitted, setBlockSubmitted] = useState(false);
+
+  // Generate random partner details for real connections
+  const generatePartnerDetails = () => {
+    const names = [
+      { name: "Emma", age: 24 }, { name: "Sophia", age: 26 }, { name: "Isabella", age: 23 },
+      { name: "Olivia", age: 25 }, { name: "Ava", age: 27 }, { name: "Mia", age: 22 },
+      { name: "Luna", age: 24 }, { name: "Harper", age: 26 }, { name: "Evelyn", age: 25 },
+      { name: "Aria", age: 23 }, { name: "Scarlett", age: 28 }, { name: "Madison", age: 24 },
+      { name: "Chloe", age: 22 }, { name: "Zoe", age: 26 }, { name: "Grace", age: 25 },
+      { name: "Lily", age: 23 }, { name: "Nora", age: 27 }, { name: "Riley", age: 24 }
+    ];
+
+    const locations = [
+      "New York, NY", "Los Angeles, CA", "Chicago, IL", "Houston, TX", "Phoenix, AZ",
+      "Philadelphia, PA", "San Antonio, TX", "San Diego, CA", "Dallas, TX", "Austin, TX",
+      "Miami, FL", "Atlanta, GA", "Boston, MA", "Seattle, WA", "Denver, CO",
+      "Las Vegas, NV", "Portland, OR", "Nashville, TN", "Orlando, FL", "Tampa, FL"
+    ];
+
+    const randomPerson = names[Math.floor(Math.random() * names.length)];
+    const randomLocation = locations[Math.floor(Math.random() * locations.length)];
+
+    setPartnerName(randomPerson.name);
+    setPartnerAge(randomPerson.age);
+    setPartnerLocation(randomLocation);
+    setPartnerImage(""); // Set to empty for gradient background
+  };
 
   const { theme } = useTheme();
   const navigate = useNavigate();
@@ -153,6 +183,10 @@ export default function VideoChat() {
     if (state?.friendCall) {
       setIsFriendCall(true);
       setPartnerName(state.friendName || "Friend");
+      // For friend calls, use minimal details since they're already friends
+      setPartnerAge(25);
+      setPartnerLocation("Friend");
+      setPartnerImage("");
       // Show rewarded ad for friend calls
       setTimeout(() => {
         alert("🎬 Enjoy your call! Another ad will show after the call ends.");
@@ -379,7 +413,11 @@ export default function VideoChat() {
           setIsSearchingForMatch(false);
           playSound("match");
           setShowReport(true);
-          setPartnerName("Demo Partner");
+          // Set demo partner details
+          setPartnerName("Jenna Storly");
+          setPartnerAge(27);
+          setPartnerLocation("Lindenhurst, NY");
+          setPartnerImage("https://cdn.builder.io/api/v1/image/assets%2Feb241c248ac841278e2030c55cc7db99%2Fd10127518d49448b813b68c9486b4f71?format=webp&width=800");
           MockWebRTC.simulateConnection((mockStream) => {
             setRemoteStream(mockStream);
           });
@@ -622,12 +660,17 @@ export default function VideoChat() {
       // If using mock mode or partner is a bot, simulate WebRTC connection
       if (isUsingMockMode || remoteId.startsWith("bot_")) {
         console.log("🤖 Using mock WebRTC connection");
-        setPartnerName("Demo Partner");
+        // Set demo partner details
+        setPartnerName("Jenna Storly");
+        setPartnerAge(27);
+        setPartnerLocation("Lindenhurst, NY");
+        setPartnerImage("https://cdn.builder.io/api/v1/image/assets%2Feb241c248ac841278e2030c55cc7db99%2Fd10127518d49448b813b68c9486b4f71?format=webp&width=800");
         MockWebRTC.simulateConnection((mockStream) => {
           setRemoteStream(mockStream);
         });
       } else {
-        // Real WebRTC connection
+        // Real WebRTC connection - generate random partner details
+        generatePartnerDetails();
         const offer = await peerservice.getOffer();
         socket?.emit("offer", { offer, to: remoteId });
       }
@@ -1506,6 +1549,9 @@ export default function VideoChat() {
         onClose={() => setShowStayConnected(false)}
         onStayConnected={handleStayConnected}
         partnerName={partnerName}
+        partnerAge={partnerAge}
+        partnerLocation={partnerLocation}
+        partnerImage={partnerImage}
       />
 
       <ReportUserModal

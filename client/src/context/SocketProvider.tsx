@@ -1,10 +1,4 @@
-import React, {
-  createContext,
-  ReactNode,
-  useContext,
-  useState,
-  useEffect,
-} from "react";
+import * as React from "react";
 import { io, Socket } from "socket.io-client";
 import MockMatchingService from "../lib/mockMatchingService";
 
@@ -15,23 +9,23 @@ interface ISocketContext {
   isUsingMockMode: boolean;
 }
 
-const SocketContext = createContext<ISocketContext | null>(null);
+const SocketContext = React.createContext<ISocketContext | null>(null);
 
 export const useSocket = () => {
-  const context = useContext(SocketContext);
+  const context = React.useContext(SocketContext);
   if (!context) {
     throw new Error("useSocket must be used within a SocketProvider");
   }
   return context;
 };
 
-export const SocketProvider = ({ children }: { children: ReactNode }) => {
-  const [socket, setSocket] = useState<Socket | null>(null);
-  const [isUsingMockMode, setIsUsingMockMode] = useState(false);
+export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
+  const [socket, setSocket] = React.useState<Socket | null>(null);
+  const [isUsingMockMode, setIsUsingMockMode] = React.useState(false);
   const mockMatching = MockMatchingService.getInstance();
 
   // Add error handling
-  useEffect(() => {
+  React.useEffect(() => {
     const handleError = (event: ErrorEvent) => {
       console.error("Socket Provider Error:", event.error);
     };

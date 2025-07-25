@@ -15,8 +15,7 @@ import {
   setDoc,
   arrayUnion,
   increment
-} from "firebase/firestore";
-import { db } from "../firebaseConfig";
+} from "./firestoreWrapper";
 
 // Types for chat messages
 export interface ChatMessage {
@@ -81,7 +80,7 @@ export async function createOrGetChatRoom(user1Id: string, user2Id: string, user
   try {
     // Create a consistent room ID regardless of user order
     const roomId = [user1Id, user2Id].sort().join('_');
-    const chatRoomRef = doc(db, "chatRooms", roomId);
+    const chatRoomRef = doc("chatRooms", roomId);
     const chatRoomSnap = await getDoc(chatRoomRef);
 
     if (!chatRoomSnap.exists()) {
@@ -125,7 +124,7 @@ export async function createOrGetChatRoom(user1Id: string, user2Id: string, user
  */
 export async function sendMessage(chatRoomId: string, senderId: string, senderName: string, recipientId: string, recipientName: string, message: string, messageType: 'text' | 'image' | 'video' | 'emoji' = 'text', mediaUrl?: string): Promise<string | null> {
   try {
-    const messagesRef = collection(db, "chatRooms", chatRoomId, "messages");
+    const messagesRef = collection("chatRooms", chatRoomId, "messages");
     
     const newMessage: Omit<ChatMessage, 'id'> = {
       chatRoomId,
@@ -149,7 +148,7 @@ export async function sendMessage(chatRoomId: string, senderId: string, senderNa
     const messageDoc = await addDoc(messagesRef, newMessage);
 
     // Update chat room with last message info
-    const chatRoomRef = doc(db, "chatRooms", chatRoomId);
+    const chatRoomRef = doc("chatRooms", chatRoomId);
     await updateDoc(chatRoomRef, {
       lastMessage: {
         text: messageType === 'text' ? message : `📷 ${messageType}`,
@@ -174,7 +173,7 @@ export async function sendMessage(chatRoomId: string, senderId: string, senderNa
  */
 export function listenToMessages(chatRoomId: string, callback: (messages: ChatMessage[]) => void, limitCount: number = 50): () => void {
   try {
-    const messagesRef = collection(db, "chatRooms", chatRoomId, "messages");
+    const messagesRef = collection("chatRooms", chatRoomId, "messages");
     const q = query(
       messagesRef,
       orderBy("timestamp", "desc"),
@@ -206,7 +205,7 @@ export function listenToMessages(chatRoomId: string, callback: (messages: ChatMe
  */
 export async function markMessagesAsRead(chatRoomId: string, userId: string): Promise<boolean> {
   try {
-    const messagesRef = collection(db, "chatRooms", chatRoomId, "messages");
+    const messagesRef = collection("chatRooms", chatRoomId, "messages");
     const q = query(
       messagesRef,
       where("recipientId", "==", userId),
@@ -233,7 +232,7 @@ export async function markMessagesAsRead(chatRoomId: string, userId: string): Pr
  */
 export async function getUserChatRooms(userId: string): Promise<ChatRoom[]> {
   try {
-    const chatRoomsRef = collection(db, "chatRooms");
+    const chatRoomsRef = collection("chatRooms");
     const q = query(
       chatRoomsRef,
       where("participants", "array-contains", userId),
@@ -259,7 +258,7 @@ export async function getUserChatRooms(userId: string): Promise<ChatRoom[]> {
  */
 export async function updateChatRoomWallpaper(chatRoomId: string, wallpaper: ChatRoom['wallpaper']): Promise<boolean> {
   try {
-    const chatRoomRef = doc(db, "chatRooms", chatRoomId);
+    const chatRoomRef = doc("chatRooms", chatRoomId);
     await updateDoc(chatRoomRef, {
       wallpaper,
       updatedAt: serverTimestamp()
@@ -277,7 +276,7 @@ export async function updateChatRoomWallpaper(chatRoomId: string, wallpaper: Cha
  */
 export async function addMessageReaction(chatRoomId: string, messageId: string, userId: string, emoji: string): Promise<boolean> {
   try {
-    const messageRef = doc(db, "chatRooms", chatRoomId, "messages", messageId);
+    const messageRef = doc("chatRooms", chatRoomId, "messages", messageId);
     await updateDoc(messageRef, {
       [`reactions.${userId}`]: emoji
     });
@@ -293,7 +292,7 @@ export async function addMessageReaction(chatRoomId: string, messageId: string, 
  */
 export async function removeMessageReaction(chatRoomId: string, messageId: string, userId: string): Promise<boolean> {
   try {
-    const messageRef = doc(db, "chatRooms", chatRoomId, "messages", messageId);
+    const messageRef = doc("chatRooms", chatRoomId, "messages", messageId);
     await updateDoc(messageRef, {
       [`reactions.${userId}`]: null
     });
@@ -309,7 +308,7 @@ export async function removeMessageReaction(chatRoomId: string, messageId: strin
  */
 export async function deleteMessage(chatRoomId: string, messageId: string): Promise<boolean> {
   try {
-    const messageRef = doc(db, "chatRooms", chatRoomId, "messages", messageId);
+    const messageRef = doc("chatRooms", chatRoomId, "messages", messageId);
     await updateDoc(messageRef, {
       message: "This message was deleted",
       messageType: 'system',

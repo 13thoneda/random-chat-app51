@@ -1,7 +1,7 @@
 import { getAuth, signInAnonymously, onAuthStateChanged } from "firebase/auth";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "./firestoreWrapper";
 import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
-import { firebaseApp, db, storage } from "../firebaseConfig";
+import { firebaseApp, storage } from "../firebaseConfig";
 
 export interface FirebaseStatus {
   isConfigured: boolean;
@@ -40,7 +40,7 @@ export async function checkFirebaseStatus(): Promise<FirebaseStatus> {
 
   try {
     // Check if Firebase is configured
-    if (!firebaseApp || !db || !storage) {
+    if (!firebaseApp || !storage) {
       status.overall = {
         working: false,
         message: "Firebase not properly configured"
@@ -72,7 +72,7 @@ export async function checkFirebaseStatus(): Promise<FirebaseStatus> {
     try {
       if (status.auth.working && status.auth.userId) {
         // Test read
-        const userDocRef = doc(db, "users", status.auth.userId);
+        const userDocRef = doc("users", status.auth.userId);
         const userDocSnap = await getDoc(userDocRef);
         status.firestore.canRead = true;
 

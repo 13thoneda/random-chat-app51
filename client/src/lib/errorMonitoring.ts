@@ -3,8 +3,8 @@
  * Provides comprehensive error tracking and user feedback
  */
 
-import { analytics, db } from "../firebaseConfig";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { analytics } from "../firebaseConfig";
+import { collection, addDoc, serverTimestamp } from "./firestoreWrapper";
 
 interface ErrorReport {
   message: string;
@@ -107,7 +107,7 @@ class ErrorMonitoring {
       }
 
       // Store in Firestore for analysis
-      await addDoc(collection(db, 'errors'), {
+      await addDoc(collection('errors'), {
         ...error,
         environment: import.meta.env.MODE,
         timestamp: serverTimestamp(),
@@ -186,7 +186,7 @@ class ErrorMonitoring {
    */
   async submitFeedback(feedback: Omit<UserFeedback, 'timestamp' | 'page'>): Promise<void> {
     try {
-      await addDoc(collection(db, 'feedback'), {
+      await addDoc(collection('feedback'), {
         ...feedback,
         userId: this.userId,
         page: window.location.pathname,
@@ -263,7 +263,7 @@ export function reportPerformanceMetric(name: string, value: number, context?: R
     }
 
     // Store performance data
-    addDoc(collection(db, 'performance'), {
+    addDoc(collection('performance'), {
       metric: name,
       value,
       context,
