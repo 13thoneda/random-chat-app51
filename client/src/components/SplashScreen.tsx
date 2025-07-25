@@ -31,7 +31,11 @@ export default function SplashScreen({ onComplete }: SplashScreenProps) {
         showConnectionTest: true,
       }));
 
-      testFirebaseStorageConnection()
+      Promise.resolve({
+        isConnected: false,
+        status: "error" as const,
+        message: "Firebase temporarily disabled for testing"
+      })
         .then((result) => {
           setConnectionStatus((prev) => ({
             ...prev,
