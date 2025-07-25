@@ -79,7 +79,7 @@ export const FriendsProvider = ({ children }: FriendsProviderProps) => {
   const maxFreeLimit = 3;
 
   // Monitor auth state
-  useEffect(() => {
+  React.useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setCurrentUserId(user.uid);
