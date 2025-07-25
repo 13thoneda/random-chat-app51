@@ -273,7 +273,7 @@ export async function startChatSession(
       connectionQuality: 'good'
     };
 
-    const chatSessionDoc = await addDoc(collection(db, "chatSessionAnalytics"), chatSessionData);
+    const chatSessionDoc = await addDoc(collection("chatSessionAnalytics"), chatSessionData);
     
     // Log to Firebase Analytics
     if (analytics) {
