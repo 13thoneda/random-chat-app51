@@ -2,6 +2,26 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 
 export type Language = 'en' | 'hi' | 'bn' | 'te' | 'mr' | 'ta' | 'gu' | 'ur' | 'kn' | 'ml' | 'pa' | 'es' | 'fr' | 'de' | 'pt' | 'ar' | 'zh';
 
+export const languages: { code: Language; name: string; flag: string }[] = [
+  { code: 'en', name: 'English', flag: '🇺🇸' },
+  { code: 'hi', name: 'हिन्दी', flag: '🇮🇳' },
+  { code: 'bn', name: 'বাংলা', flag: '🇧🇩' },
+  { code: 'te', name: 'తెలుగు', flag: '🇮🇳' },
+  { code: 'mr', name: 'मराठी', flag: '🇮🇳' },
+  { code: 'ta', name: 'தமிழ்', flag: '🇮🇳' },
+  { code: 'gu', name: 'ગુજરાતી', flag: '🇮🇳' },
+  { code: 'ur', name: 'اردو', flag: '🇵🇰' },
+  { code: 'kn', name: 'ಕನ್ನಡ', flag: '🇮🇳' },
+  { code: 'ml', name: 'മലയാളം', flag: '🇮🇳' },
+  { code: 'pa', name: 'ਪੰਜਾਬੀ', flag: '🇮🇳' },
+  { code: 'es', name: 'Español', flag: '🇪🇸' },
+  { code: 'fr', name: 'Français', flag: '🇫🇷' },
+  { code: 'de', name: 'Deutsch', flag: '🇩🇪' },
+  { code: 'pt', name: 'Português', flag: '🇵🇹' },
+  { code: 'ar', name: 'العربية', flag: '🇸🇦' },
+  { code: 'zh', name: '中文', flag: '🇨🇳' },
+];
+
 interface LanguageContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
