@@ -1,10 +1,4 @@
-import React, {
-  createContext,
-  ReactNode,
-  useContext,
-  useState,
-  useEffect,
-} from "react";
+import * as React from "react";
 import { io, Socket } from "socket.io-client";
 import MockMatchingService from "../lib/mockMatchingService";
 
