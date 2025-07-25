@@ -157,20 +157,20 @@ export default function StayConnectedModal({
 
         {/* Bottom Content - Only show if not waiting */}
         {!isWaiting && myChoice === null && (
-          <div className="p-6 bg-white">
-            <div className="text-center space-y-3">
-              <h3 className="text-lg font-semibold text-gray-800">
+          <div className="p-6 pb-8 md:pb-6 bg-white flex-shrink-0">
+            <div className="text-center space-y-4">
+              <h3 className="text-lg md:text-base font-semibold text-gray-800">
                 Want to stay connected?
               </h3>
-              <p className="text-gray-600 text-sm leading-relaxed">
+              <p className="text-gray-600 text-sm leading-relaxed px-2">
                 Add {partnerName} as a friend to chat anytime and see when they're online!
               </p>
-              
+
               {/* Alternative action - quick skip */}
               <Button
                 onClick={handleDontStay}
                 variant="outline"
-                className="w-full border-2 border-gray-200 text-gray-600 hover:bg-gray-50 font-medium py-3 rounded-xl text-sm touch-manipulation"
+                className="w-full border-2 border-gray-200 text-gray-600 hover:bg-gray-50 font-medium py-4 md:py-3 rounded-xl text-sm touch-manipulation active:scale-98 min-h-[48px]"
               >
                 Maybe Later - Find Next Chat
               </Button>
