@@ -665,7 +665,8 @@ export default function VideoChat() {
           setRemoteStream(mockStream);
         });
       } else {
-        // Real WebRTC connection
+        // Real WebRTC connection - generate random partner details
+        generatePartnerDetails();
         const offer = await peerservice.getOffer();
         socket?.emit("offer", { offer, to: remoteId });
       }
