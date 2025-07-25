@@ -58,21 +58,21 @@ export const useFriends = () => {
 };
 
 interface FriendsProviderProps {
-  children: ReactNode;
+  children: React.ReactNode;
 }
 
 export const FriendsProvider = ({ children }: FriendsProviderProps) => {
-  const [friends, setFriends] = useState<Friend[]>([]);
-  const [friendRequests, setFriendRequests] = useState<FriendRequest[]>([]);
-  const [friendsStats, setFriendsStats] = useState<FriendsStats>({
+  const [friends, setFriends] = React.useState<Friend[]>([]);
+  const [friendRequests, setFriendRequests] = React.useState<FriendRequest[]>([]);
+  const [friendsStats, setFriendsStats] = React.useState<FriendsStats>({
     totalFriends: 0,
     onlineFriends: 0,
     pendingRequests: 0,
     sentRequests: 0,
     mutualConnections: 0
   });
-  const [loading, setLoading] = useState(true);
-  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+  const [loading, setLoading] = React.useState(true);
+  const [currentUserId, setCurrentUserId] = React.useState<string | null>(null);
   const [currentUserName, setCurrentUserName] = useState<string>("User");
 
   const { isPremium } = usePremium();
