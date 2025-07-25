@@ -116,9 +116,9 @@ export default function StayConnectedModal({
                   </button>
                 </div>
 
-                {/* View Profile Button */}
+                {/* Add as Friend Button */}
                 <Button
-                  className="w-full bg-white/90 backdrop-blur-sm text-gray-800 hover:bg-white font-semibold py-4 rounded-xl border-0 text-base touch-manipulation"
+                  className="w-full bg-white/90 backdrop-blur-sm text-gray-800 hover:bg-white font-semibold py-4 md:py-3 rounded-xl border-0 text-base md:text-sm touch-manipulation active:scale-98 min-h-[52px] md:min-h-[44px]"
                 >
                   Add as Friend
                 </Button>
