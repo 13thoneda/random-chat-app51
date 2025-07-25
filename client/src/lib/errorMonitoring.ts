@@ -3,8 +3,8 @@
  * Provides comprehensive error tracking and user feedback
  */
 
-import { analytics, db } from "../firebaseConfig";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { analytics } from "../firebaseConfig";
+import { collection, addDoc, serverTimestamp } from "./firestoreWrapper";
 
 interface ErrorReport {
   message: string;
