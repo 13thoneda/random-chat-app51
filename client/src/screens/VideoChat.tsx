@@ -1509,6 +1509,9 @@ export default function VideoChat() {
         onClose={() => setShowStayConnected(false)}
         onStayConnected={handleStayConnected}
         partnerName={partnerName}
+        partnerAge={partnerAge}
+        partnerLocation={partnerLocation}
+        partnerImage={partnerImage}
       />
 
       <ReportUserModal
