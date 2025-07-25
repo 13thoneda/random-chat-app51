@@ -88,7 +88,7 @@ export default function StayConnectedModal({
             {!isWaiting && myChoice === null && (
               <>
                 {/* Action Buttons - Dating App Style */}
-                <div className="flex items-center justify-center gap-6 mb-6">
+                <div className="flex items-center justify-center gap-8 mb-6 px-4">
                   {/* Skip Button */}
                   <button
                     onClick={handleDontStay}
