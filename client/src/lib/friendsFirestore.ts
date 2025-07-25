@@ -155,8 +155,8 @@ export async function acceptFriendRequest(requestId: string): Promise<boolean> {
       mutualFriends: 0
     };
 
-    await addDoc(collection(db, "friends"), friendship1);
-    await addDoc(collection(db, "friends"), friendship2);
+    await addDoc(collection("friends"), friendship1);
+    await addDoc(collection("friends"), friendship2);
 
     // Update friend counts
     const user1Ref = doc(db, "users", requestData.fromUserId);
@@ -205,13 +205,13 @@ export async function removeFriend(userId: string, friendId: string): Promise<bo
   try {
     // Find and delete both friendship records
     const friendship1Query = query(
-      collection(db, "friends"),
+      collection("friends"),
       where("userId", "==", userId),
       where("friendId", "==", friendId)
     );
     
     const friendship2Query = query(
-      collection(db, "friends"),
+      collection("friends"),
       where("userId", "==", friendId),
       where("friendId", "==", userId)
     );
@@ -261,7 +261,7 @@ export async function removeFriend(userId: string, friendId: string): Promise<bo
 export async function getUserFriends(userId: string): Promise<Friend[]> {
   try {
     const friendsQuery = query(
-      collection(db, "friends"),
+      collection("friends"),
       where("userId", "==", userId),
       orderBy("addedAt", "desc")
     );
@@ -367,7 +367,7 @@ export function listenToFriendRequests(userId: string, callback: (requests: Frie
 export function listenToFriends(userId: string, callback: (friends: Friend[]) => void): () => void {
   try {
     const friendsQuery = query(
-      collection(db, "friends"),
+      collection("friends"),
       where("userId", "==", userId),
       orderBy("addedAt", "desc")
     );
@@ -395,7 +395,7 @@ export function listenToFriends(userId: string, callback: (friends: Friend[]) =>
 export async function updateFriendOnlineStatus(userId: string, friendId: string, isOnline: boolean): Promise<boolean> {
   try {
     const friendQuery = query(
-      collection(db, "friends"),
+      collection("friends"),
       where("userId", "==", userId),
       where("friendId", "==", friendId)
     );
@@ -423,7 +423,7 @@ export async function updateFriendOnlineStatus(userId: string, friendId: string,
 export async function toggleFriendFavorite(userId: string, friendId: string): Promise<boolean> {
   try {
     const friendQuery = query(
-      collection(db, "friends"),
+      collection("friends"),
       where("userId", "==", userId),
       where("friendId", "==", friendId)
     );
