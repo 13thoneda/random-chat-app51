@@ -1,14 +1,14 @@
-import { 
-  collection, 
-  doc, 
-  addDoc, 
-  query, 
-  where, 
-  orderBy, 
-  limit, 
-  onSnapshot, 
-  updateDoc, 
-  serverTimestamp, 
+import {
+  collection,
+  doc,
+  addDoc,
+  query,
+  where,
+  orderBy,
+  limit,
+  onSnapshot,
+  updateDoc,
+  serverTimestamp,
   Timestamp,
   getDoc,
   getDocs,
@@ -17,8 +17,7 @@ import {
   arrayRemove,
   increment,
   deleteDoc
-} from "firebase/firestore";
-import { db } from "../firebaseConfig";
+} from "./firestoreWrapper";
 
 // Types for friends system
 export interface FriendRequest {
