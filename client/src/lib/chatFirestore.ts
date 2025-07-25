@@ -124,7 +124,7 @@ export async function createOrGetChatRoom(user1Id: string, user2Id: string, user
  */
 export async function sendMessage(chatRoomId: string, senderId: string, senderName: string, recipientId: string, recipientName: string, message: string, messageType: 'text' | 'image' | 'video' | 'emoji' = 'text', mediaUrl?: string): Promise<string | null> {
   try {
-    const messagesRef = collection(db, "chatRooms", chatRoomId, "messages");
+    const messagesRef = collection("chatRooms", chatRoomId, "messages");
     
     const newMessage: Omit<ChatMessage, 'id'> = {
       chatRoomId,
@@ -173,7 +173,7 @@ export async function sendMessage(chatRoomId: string, senderId: string, senderNa
  */
 export function listenToMessages(chatRoomId: string, callback: (messages: ChatMessage[]) => void, limitCount: number = 50): () => void {
   try {
-    const messagesRef = collection(db, "chatRooms", chatRoomId, "messages");
+    const messagesRef = collection("chatRooms", chatRoomId, "messages");
     const q = query(
       messagesRef,
       orderBy("timestamp", "desc"),
@@ -205,7 +205,7 @@ export function listenToMessages(chatRoomId: string, callback: (messages: ChatMe
  */
 export async function markMessagesAsRead(chatRoomId: string, userId: string): Promise<boolean> {
   try {
-    const messagesRef = collection(db, "chatRooms", chatRoomId, "messages");
+    const messagesRef = collection("chatRooms", chatRoomId, "messages");
     const q = query(
       messagesRef,
       where("recipientId", "==", userId),
