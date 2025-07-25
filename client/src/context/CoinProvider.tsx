@@ -53,7 +53,7 @@ export const CoinProvider = ({ children }: CoinProviderProps) => {
   const auth = getAuth(firebaseApp);
 
   // Listen for auth state changes
-  useEffect(() => {
+  React.useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setCurrentUser(user.uid);
