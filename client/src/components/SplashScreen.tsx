@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import * as React from "react";
 import { CheckCircle, XCircle, Wifi, Database } from "lucide-react";
 import {
   testFirebaseStorageConnection,
