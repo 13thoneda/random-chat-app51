@@ -44,10 +44,19 @@ try {
   if (!db) {
     throw new Error("Firestore database not initialized");
   }
-  console.log("✅ Firebase Firestore initialized successfully");
+  console.log("��� Firebase Firestore initialized successfully");
 } catch (error) {
   console.error("❌ Firebase Firestore initialization error:", error);
 }
+
+// Safe database accessor function
+export const getDb = () => {
+  if (!db) {
+    console.error("Database not initialized, attempting to reinitialize...");
+    return getFirestore(firebaseApp);
+  }
+  return db;
+};
 
 // ✅ Optional: Analytics (only in production + HTTPS)
 let analytics: any = null;
