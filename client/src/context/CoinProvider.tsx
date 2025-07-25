@@ -88,7 +88,7 @@ export const CoinProvider = ({ children }: CoinProviderProps) => {
   }, [currentUser]);
 
   // Initialize local storage data (ads, daily bonus, streak, pending ads)
-  useEffect(() => {
+  React.useEffect(() => {
     const lastDailyBonus = localStorage.getItem("ajnabicam_last_daily_bonus");
     const adsToday = localStorage.getItem("ajnabicam_ads_today");
     const adsDate = localStorage.getItem("ajnabicam_ads_date");
