@@ -22,29 +22,50 @@ import {
 // Safe database getter with initialization check
 let dbInstance: any = null;
 let initializationAttempted = false;
+let lastError: string | null = null;
 
 const getDatabase = () => {
   if (!dbInstance && !initializationAttempted) {
     initializationAttempted = true;
     try {
-      // Dynamic import to avoid circular dependencies
-      const firebaseConfig = require("../firebaseConfig");
+      // Try multiple approaches to get the database
+      let firebaseConfig;
+
+      // Approach 1: Direct require
+      try {
+        firebaseConfig = require("../firebaseConfig");
+      } catch (e) {
+        console.warn("Could not require firebaseConfig directly");
+      }
+
+      // Approach 2: Try alternative config
+      if (!firebaseConfig || !firebaseConfig.db) {
+        try {
+          firebaseConfig = require("../config/firebase.config");
+        } catch (e) {
+          console.warn("Could not require alternative firebase config");
+        }
+      }
+
       if (firebaseConfig && firebaseConfig.db) {
         dbInstance = firebaseConfig.db;
         console.log("✅ Database instance obtained successfully");
+        lastError = null;
       } else {
-        console.error("❌ Database not found in firebaseConfig");
+        lastError = "Database not found in any firebaseConfig";
+        console.error("❌", lastError);
         // Wait a bit and try again
         setTimeout(() => {
           initializationAttempted = false;
-        }, 1000);
+        }, 2000);
       }
     } catch (error) {
-      console.error("Failed to get database instance:", error);
+      lastError = `Failed to get database instance: ${error}`;
+      console.error(lastError);
       // Reset flag to allow retry
       setTimeout(() => {
         initializationAttempted = false;
-      }, 1000);
+      }, 2000);
     }
   }
   return dbInstance;
