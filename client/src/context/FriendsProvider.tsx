@@ -97,7 +97,7 @@ export const FriendsProvider = ({ children }: FriendsProviderProps) => {
   }, []);
 
   // Set up real-time friends listener
-  useEffect(() => {
+  React.useEffect(() => {
     if (!currentUserId) return;
 
     setLoading(true);
