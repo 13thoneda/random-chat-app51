@@ -153,7 +153,7 @@ export async function endUserSession(sessionId?: string): Promise<boolean> {
 
     // Find session document
     const sessionsQuery = query(
-      collection(db, "userSessions"),
+      collection("userSessions"),
       where("sessionId", "==", currentSessionId),
       limit(1)
     );
@@ -218,7 +218,7 @@ export async function trackUserInteraction(
     // Update session interaction count
     if (sessionId !== 'unknown') {
       const sessionsQuery = query(
-        collection(db, "userSessions"),
+        collection("userSessions"),
         where("sessionId", "==", sessionId),
         limit(1)
       );
@@ -477,7 +477,7 @@ export async function trackPageView(userId: string, page: string, title?: string
     // Update session page views
     if (sessionId !== 'unknown') {
       const sessionsQuery = query(
-        collection(db, "userSessions"),
+        collection("userSessions"),
         where("sessionId", "==", sessionId),
         limit(1)
       );
