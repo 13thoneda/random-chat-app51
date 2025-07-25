@@ -15,8 +15,7 @@ import {
   arrayUnion,
   arrayRemove,
   Timestamp
-} from "firebase/firestore";
-import { db } from "../firebaseConfig";
+} from "./firestoreWrapper";
 
 // Types for user data
 export interface UserProfile {
