@@ -23,6 +23,7 @@ import {
   Gem,
   Settings,
   Bot,
+  MessageCircle,
 } from "lucide-react";
 import GenderFilter from "../components/GenderFilter";
 // import PremiumPaywall from "../components/PremiumPaywall"; // Now using separate page
