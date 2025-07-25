@@ -43,7 +43,7 @@ export default function StayConnectedModal({
       {/* Main Card */}
       <div className="w-full max-w-sm bg-white overflow-hidden relative md:rounded-2xl h-full md:h-auto max-h-[90vh] flex flex-col">
         {/* Profile Card - Dating App Style */}
-        <div className="relative h-[70vh] md:h-96 bg-gradient-to-b from-transparent to-black/60 overflow-hidden">
+        <div className="relative flex-1 md:h-96 bg-gradient-to-b from-transparent to-black/60 overflow-hidden min-h-[60vh]">
           {/* Background Image */}
           <div className="absolute inset-0">
             {partnerImage ? (
