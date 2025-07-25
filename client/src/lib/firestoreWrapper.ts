@@ -75,10 +75,21 @@ const getDatabase = () => {
 export const collection = (path: string, ...pathSegments: string[]) => {
   const db = getDatabase();
   if (!db) {
-    console.error("Database not available for collection operation, path:", path);
-    throw new Error(`Database not available. Cannot access collection: ${path}`);
+    const errorMsg = `Database not available. Cannot access collection: ${path}. Last error: ${lastError || 'Unknown'}`;
+    console.error("❌ Collection operation failed:", errorMsg);
+
+    // Create a more descriptive error
+    const error = new Error(errorMsg);
+    error.name = "FirestoreWrapperError";
+    throw error;
   }
-  return firestoreCollection(db, path, ...pathSegments);
+
+  try {
+    return firestoreCollection(db, path, ...pathSegments);
+  } catch (error) {
+    console.error("❌ Firestore collection() call failed:", error);
+    throw error;
+  }
 };
 
 export const doc = (path: string, ...pathSegments: string[]) => {
