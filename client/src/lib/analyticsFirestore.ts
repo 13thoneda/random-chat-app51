@@ -213,7 +213,7 @@ export async function trackUserInteraction(
       userAgent: navigator.userAgent
     };
 
-    await addDoc(collection(db, "userInteractions"), interaction);
+    await addDoc(collection("userInteractions"), interaction);
 
     // Update session interaction count
     if (sessionId !== 'unknown') {
