@@ -72,7 +72,7 @@ export async function checkFirebaseStatus(): Promise<FirebaseStatus> {
     try {
       if (status.auth.working && status.auth.userId) {
         // Test read
-        const userDocRef = doc(db, "users", status.auth.userId);
+        const userDocRef = doc("users", status.auth.userId);
         const userDocSnap = await getDoc(userDocRef);
         status.firestore.canRead = true;
 
