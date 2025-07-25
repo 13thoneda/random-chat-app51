@@ -68,11 +68,8 @@ function App() {
   }
 
   // Initialize analytics with error handling
-  try {
-    useAnalytics();
-  } catch (error) {
-    console.error("Analytics initialization failed:", error);
-  }
+  // Analytics hook - must be called at top level
+  const analytics = useAnalytics();
 
   useEffect(() => {
     const timer = setTimeout(() => {
