@@ -285,8 +285,8 @@ export default function Home() {
                 </div>
               </div>
               <div>
-                <h2 className="text-xl font-bold mb-2">Start Video Chat</h2>
-                <p className="text-white/90 text-sm">Connect with amazing people worldwide</p>
+                <h2 className="text-xl font-bold mb-2">Open Chats</h2>
+                <p className="text-white/90 text-sm">View your conversations and meet new people</p>
               </div>
               <Button
                 className={`w-full py-4 rounded-xl font-semibold text-lg shadow-lg touch-action-manipulation transition-all duration-200 active:scale-95 ${
