@@ -1,95 +1,183 @@
 import { useState } from "react";
 import { Button } from "./ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-import { Heart, X, Users } from "lucide-react";
+import { Heart, X, MessageCircle, MapPin, Loader } from "lucide-react";
 
 interface StayConnectedModalProps {
   isOpen: boolean;
   onClose: () => void;
   onStayConnected: (wantToStay: boolean) => void;
   partnerName?: string;
+  partnerAge?: number;
+  partnerLocation?: string;
+  partnerImage?: string;
 }
 
 export default function StayConnectedModal({ 
   isOpen, 
   onClose, 
   onStayConnected, 
-  partnerName = "Stranger" 
+  partnerName = "Stranger",
+  partnerAge = 25,
+  partnerLocation = "Lindenhurst, NY",
+  partnerImage
 }: StayConnectedModalProps) {
   const [isWaiting, setIsWaiting] = useState(false);
+  const [myChoice, setMyChoice] = useState<boolean | null>(null);
 
   if (!isOpen) return null;
 
   const handleStayConnected = () => {
     setIsWaiting(true);
+    setMyChoice(true);
     onStayConnected(true);
   };
 
   const handleDontStay = () => {
+    setMyChoice(false);
     onStayConnected(false);
     onClose();
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <Card className="w-full max-w-sm mx-auto bg-white border-2 border-rose-200 shadow-2xl">
-        <CardHeader className="text-center relative">
-          <Button
-            variant="ghost"
-            size="sm"
+    <div className="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-end justify-center z-50 p-0 md:items-center md:p-4">
+      {/* Main Card */}
+      <div className="w-full max-w-sm bg-white overflow-hidden relative md:rounded-2xl h-full md:h-auto max-h-[90vh]">
+        {/* Profile Card - Dating App Style */}
+        <div className="relative h-[70vh] md:h-96 bg-gradient-to-b from-transparent to-black/60 overflow-hidden">
+          {/* Background Image */}
+          <div className="absolute inset-0">
+            {partnerImage ? (
+              <img
+                src={partnerImage}
+                alt={partnerName}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <div className="w-full h-full bg-gradient-to-br from-passion-400 via-romance-500 to-royal-600 flex items-center justify-center">
+                <div className="w-32 h-32 bg-white/20 rounded-full flex items-center justify-center text-6xl text-white font-bold">
+                  {partnerName.charAt(0).toUpperCase()}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Gradient Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+
+          {/* Close Button */}
+          <button
             onClick={onClose}
-            className="absolute right-2 top-2 p-1"
+            className="absolute top-4 right-4 w-10 h-10 bg-black/40 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-black/60 transition-colors z-10"
           >
-            <X size={20} />
-          </Button>
-          
-          <div className="flex justify-center mb-4">
-            <div className="bg-gradient-to-r from-pink-500 to-rose-600 p-4 rounded-full">
-              <Heart className="h-8 w-8 text-white" />
-            </div>
-          </div>
-          
-          <CardTitle className="text-xl font-bold text-rose-700">
-            Stay Connected?
-          </CardTitle>
-        </CardHeader>
+            <X className="w-5 h-5" />
+          </button>
 
-        <CardContent className="space-y-6">
-          <div className="text-center">
-            <p className="text-gray-700 mb-2">
-              Do you want to stay connected with <span className="font-semibold text-rose-600">{partnerName}</span>?
-            </p>
-            <p className="text-sm text-gray-500">
-              You'll be added to each other's friends list and can video call anytime!
-            </p>
-          </div>
-
-          {isWaiting ? (
-            <div className="text-center py-4">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-rose-500 mx-auto mb-3"></div>
-              <p className="text-sm text-gray-600">Waiting for {partnerName}'s response...</p>
+          {/* Profile Info */}
+          <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+            <div className="flex items-center gap-2 mb-2">
+              <h2 className="text-2xl md:text-3xl font-bold">
+                {partnerName}, {partnerAge}
+              </h2>
+              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
             </div>
-          ) : (
-            <div className="space-y-3">
-              <Button
-                onClick={handleStayConnected}
-                className="w-full bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-600 hover:to-rose-700 text-white font-semibold py-3 rounded-xl shadow-md"
-              >
-                <Users className="h-5 w-5 mr-2" />
-                Yes, Stay Connected! 💕
-              </Button>
+            <div className="flex items-center gap-1 text-white/80 text-sm mb-6">
+              <MapPin className="w-4 h-4" />
+              <span>{partnerLocation}</span>
+            </div>
+
+            {!isWaiting && myChoice === null && (
+              <>
+                {/* Action Buttons - Dating App Style */}
+                <div className="flex items-center justify-center gap-6 mb-6">
+                  {/* Skip Button */}
+                  <button
+                    onClick={handleDontStay}
+                    className="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-200 hover:scale-110 touch-manipulation"
+                    aria-label="Skip"
+                  >
+                    <X className="w-6 h-6 text-white" />
+                  </button>
+
+                  {/* Message Button */}
+                  <button
+                    className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-200 hover:scale-110 touch-manipulation"
+                    aria-label="Message"
+                  >
+                    <MessageCircle className="w-5 h-5 text-white" />
+                  </button>
+
+                  {/* Add Friend Button */}
+                  <button
+                    onClick={handleStayConnected}
+                    className="w-14 h-14 bg-gradient-to-r from-passion-500 to-romance-600 rounded-full flex items-center justify-center hover:from-passion-600 hover:to-romance-700 transition-all duration-200 hover:scale-110 shadow-lg touch-manipulation"
+                    aria-label="Add Friend"
+                  >
+                    <Heart className="w-6 h-6 text-white fill-current" />
+                  </button>
+                </div>
+
+                {/* View Profile Button */}
+                <Button
+                  className="w-full bg-white/90 backdrop-blur-sm text-gray-800 hover:bg-white font-semibold py-4 rounded-xl border-0 text-base touch-manipulation"
+                >
+                  Add as Friend
+                </Button>
+              </>
+            )}
+
+            {isWaiting && (
+              <div className="text-center space-y-4">
+                <div className="w-16 h-16 mx-auto bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
+                  <Loader className="w-8 h-8 text-white animate-spin" />
+                </div>
+                
+                {myChoice === true ? (
+                  <div>
+                    <p className="text-lg font-semibold text-white mb-2">
+                      Waiting for {partnerName}...
+                    </p>
+                    <p className="text-white/80 text-sm">
+                      You want to be friends! Let's see what {partnerName} decides.
+                    </p>
+                  </div>
+                ) : (
+                  <div>
+                    <p className="text-lg font-semibold text-white mb-2">
+                      Moving to next chat...
+                    </p>
+                    <p className="text-white/80 text-sm">
+                      Finding you someone new to chat with.
+                    </p>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Bottom Content - Only show if not waiting */}
+        {!isWaiting && myChoice === null && (
+          <div className="p-6 bg-white">
+            <div className="text-center space-y-3">
+              <h3 className="text-lg font-semibold text-gray-800">
+                Want to stay connected?
+              </h3>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                Add {partnerName} as a friend to chat anytime and see when they're online!
+              </p>
               
+              {/* Alternative action - quick skip */}
               <Button
                 onClick={handleDontStay}
                 variant="outline"
-                className="w-full border-2 border-gray-300 text-gray-700 hover:bg-gray-50 font-semibold py-3 rounded-xl"
+                className="w-full border-2 border-gray-200 text-gray-600 hover:bg-gray-50 font-medium py-3 rounded-xl text-sm touch-manipulation"
               >
-                No, Thanks
+                Maybe Later - Find Next Chat
               </Button>
             </div>
-          )}
-        </CardContent>
-      </Card>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
