@@ -119,7 +119,7 @@ export async function startUserSession(userId: string): Promise<string> {
       interactions: 0
     };
 
-    const sessionDoc = await addDoc(collection(db, "userSessions"), sessionData);
+    const sessionDoc = await addDoc(collection("userSessions"), sessionData);
     
     // Log to Firebase Analytics if available
     if (analytics) {
