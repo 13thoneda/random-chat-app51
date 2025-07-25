@@ -276,7 +276,7 @@ export async function updateChatRoomWallpaper(chatRoomId: string, wallpaper: Cha
  */
 export async function addMessageReaction(chatRoomId: string, messageId: string, userId: string, emoji: string): Promise<boolean> {
   try {
-    const messageRef = doc(db, "chatRooms", chatRoomId, "messages", messageId);
+    const messageRef = doc("chatRooms", chatRoomId, "messages", messageId);
     await updateDoc(messageRef, {
       [`reactions.${userId}`]: emoji
     });
@@ -292,7 +292,7 @@ export async function addMessageReaction(chatRoomId: string, messageId: string, 
  */
 export async function removeMessageReaction(chatRoomId: string, messageId: string, userId: string): Promise<boolean> {
   try {
-    const messageRef = doc(db, "chatRooms", chatRoomId, "messages", messageId);
+    const messageRef = doc("chatRooms", chatRoomId, "messages", messageId);
     await updateDoc(messageRef, {
       [`reactions.${userId}`]: null
     });
@@ -308,7 +308,7 @@ export async function removeMessageReaction(chatRoomId: string, messageId: strin
  */
 export async function deleteMessage(chatRoomId: string, messageId: string): Promise<boolean> {
   try {
-    const messageRef = doc(db, "chatRooms", chatRoomId, "messages", messageId);
+    const messageRef = doc("chatRooms", chatRoomId, "messages", messageId);
     await updateDoc(messageRef, {
       message: "This message was deleted",
       messageType: 'system',
