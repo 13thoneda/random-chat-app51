@@ -232,7 +232,7 @@ export async function markMessagesAsRead(chatRoomId: string, userId: string): Pr
  */
 export async function getUserChatRooms(userId: string): Promise<ChatRoom[]> {
   try {
-    const chatRoomsRef = collection(db, "chatRooms");
+    const chatRoomsRef = collection("chatRooms");
     const q = query(
       chatRoomsRef,
       where("participants", "array-contains", userId),
