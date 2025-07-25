@@ -234,7 +234,7 @@ export async function removeFriend(userId: string, friendId: string): Promise<bo
     await Promise.all(deletePromises);
 
     // Update friend counts
-    const user1Ref = doc(db, "users", userId);
+    const user1Ref = doc("users", userId);
     const user2Ref = doc(db, "users", friendId);
     
     await updateDoc(user1Ref, {
