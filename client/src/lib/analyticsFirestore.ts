@@ -305,7 +305,7 @@ export async function endChatSession(
   reportIssues?: boolean
 ): Promise<boolean> {
   try {
-    const chatSessionRef = doc(db, "chatSessionAnalytics", chatSessionId);
+    const chatSessionRef = doc("chatSessionAnalytics", chatSessionId);
     const chatSessionSnap = await getDoc(chatSessionRef);
     
     if (!chatSessionSnap.exists()) return false;
