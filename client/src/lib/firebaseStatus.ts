@@ -1,7 +1,7 @@
 import { getAuth, signInAnonymously, onAuthStateChanged } from "firebase/auth";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "./firestoreWrapper";
 import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
-import { firebaseApp, db, storage } from "../firebaseConfig";
+import { firebaseApp, storage } from "../firebaseConfig";
 
 export interface FirebaseStatus {
   isConfigured: boolean;
