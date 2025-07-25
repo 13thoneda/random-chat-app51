@@ -19,86 +19,27 @@ import {
   arrayRemove
 } from "firebase/firestore";
 
-// Safe database getter with initialization check
-let dbInstance: any = null;
-let initializationAttempted = false;
-let lastError: string | null = null;
-
-const getDatabase = () => {
-  if (!dbInstance && !initializationAttempted) {
-    initializationAttempted = true;
-    try {
-      // Try multiple approaches to get the database
-      let firebaseConfig;
-
-      // Approach 1: Direct require
-      try {
-        firebaseConfig = require("../firebaseConfig");
-      } catch (e) {
-        console.warn("Could not require firebaseConfig directly");
-      }
-
-      // Approach 2: Try alternative config
-      if (!firebaseConfig || !firebaseConfig.db) {
-        try {
-          firebaseConfig = require("../config/firebase.config");
-        } catch (e) {
-          console.warn("Could not require alternative firebase config");
-        }
-      }
-
-      if (firebaseConfig && firebaseConfig.db) {
-        dbInstance = firebaseConfig.db;
-        console.log("✅ Database instance obtained successfully");
-        lastError = null;
-      } else {
-        lastError = "Database not found in any firebaseConfig";
-        console.error("❌", lastError);
-        // Wait a bit and try again
-        setTimeout(() => {
-          initializationAttempted = false;
-        }, 2000);
-      }
-    } catch (error) {
-      lastError = `Failed to get database instance: ${error}`;
-      console.error(lastError);
-      // Reset flag to allow retry
-      setTimeout(() => {
-        initializationAttempted = false;
-      }, 2000);
-    }
-  }
-  return dbInstance;
-};
+import { getDatabase } from "./firebaseInit";
 
 // Safe wrapper functions
 export const collection = (path: string, ...pathSegments: string[]) => {
-  const db = getDatabase();
-  if (!db) {
-    const errorMsg = `Database not available. Cannot access collection: ${path}. Last error: ${lastError || 'Unknown'}`;
-    console.error("❌ Collection operation failed:", errorMsg);
-
-    // Create a more descriptive error
-    const error = new Error(errorMsg);
-    error.name = "FirestoreWrapperError";
-    throw error;
-  }
-
   try {
+    const db = getDatabase();
     return firestoreCollection(db, path, ...pathSegments);
   } catch (error) {
-    console.error("❌ Firestore collection() call failed:", error);
+    console.error("❌ Collection operation failed:", error);
     throw error;
   }
 };
 
 export const doc = (path: string, ...pathSegments: string[]) => {
-  const db = getDatabase();
-  if (!db) {
-    console.error("Database not available for doc operation, path:", path);
-    throw new Error(`Database not available. Cannot access document: ${path}`);
+  try {
+    const db = getDatabase();
+    return firestoreDoc(db, path, ...pathSegments);
+  } catch (error) {
+    console.error("❌ Doc operation failed:", error);
+    throw error;
   }
-  return firestoreDoc(db, path, ...pathSegments);
 };
 
 export const addDoc = async (reference: any, data: any) => {
