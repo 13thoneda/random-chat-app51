@@ -387,7 +387,7 @@ export async function trackFeatureUsage(
 export async function updateDailyMetrics(userId: string, metrics: Partial<UserBehaviorMetrics>): Promise<boolean> {
   try {
     const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
-    const metricsRef = doc(db, "userBehaviorMetrics", `${userId}_${today}`);
+    const metricsRef = doc("userBehaviorMetrics", `${userId}_${today}`);
     
     const existingMetrics = await getDoc(metricsRef);
     
