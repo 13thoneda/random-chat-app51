@@ -382,7 +382,11 @@ export default function VideoChat() {
           setIsSearchingForMatch(false);
           playSound("match");
           setShowReport(true);
-          setPartnerName("Demo Partner");
+          // Set demo partner details
+          setPartnerName("Jenna Storly");
+          setPartnerAge(27);
+          setPartnerLocation("Lindenhurst, NY");
+          setPartnerImage("https://cdn.builder.io/api/v1/image/assets%2Feb241c248ac841278e2030c55cc7db99%2Fd10127518d49448b813b68c9486b4f71?format=webp&width=800");
           MockWebRTC.simulateConnection((mockStream) => {
             setRemoteStream(mockStream);
           });
