@@ -186,7 +186,7 @@ class ErrorMonitoring {
    */
   async submitFeedback(feedback: Omit<UserFeedback, 'timestamp' | 'page'>): Promise<void> {
     try {
-      await addDoc(collection(db, 'feedback'), {
+      await addDoc(collection('feedback'), {
         ...feedback,
         userId: this.userId,
         page: window.location.pathname,
