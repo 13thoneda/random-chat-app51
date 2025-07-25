@@ -33,11 +33,21 @@ if (!firebaseApp) {
 
 console.log("✅ Firebase app initialized successfully");
 
-// ✅ Core exports
+// ✅ Core exports with initialization checks
 export const auth = getAuth(firebaseApp);
 export const db = getFirestore(firebaseApp);
 export const storage = getStorage(firebaseApp);
 export { firebaseApp };
+
+// Verify database is properly initialized
+try {
+  if (!db) {
+    throw new Error("Firestore database not initialized");
+  }
+  console.log("✅ Firebase Firestore initialized successfully");
+} catch (error) {
+  console.error("❌ Firebase Firestore initialization error:", error);
+}
 
 // ✅ Optional: Analytics (only in production + HTTPS)
 let analytics: any = null;
