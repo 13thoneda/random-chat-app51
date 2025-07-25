@@ -92,27 +92,27 @@ export default function StayConnectedModal({
                   {/* Skip Button */}
                   <button
                     onClick={handleDontStay}
-                    className="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-200 hover:scale-110 touch-manipulation"
+                    className="w-16 h-16 md:w-14 md:h-14 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-200 hover:scale-110 touch-manipulation active:scale-95"
                     aria-label="Skip"
                   >
-                    <X className="w-6 h-6 text-white" />
+                    <X className="w-7 h-7 md:w-6 md:h-6 text-white" />
                   </button>
 
                   {/* Message Button */}
                   <button
-                    className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-200 hover:scale-110 touch-manipulation"
+                    className="w-14 h-14 md:w-12 md:h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-200 hover:scale-110 touch-manipulation active:scale-95"
                     aria-label="Message"
                   >
-                    <MessageCircle className="w-5 h-5 text-white" />
+                    <MessageCircle className="w-6 h-6 md:w-5 md:h-5 text-white" />
                   </button>
 
                   {/* Add Friend Button */}
                   <button
                     onClick={handleStayConnected}
-                    className="w-14 h-14 bg-gradient-to-r from-passion-500 to-romance-600 rounded-full flex items-center justify-center hover:from-passion-600 hover:to-romance-700 transition-all duration-200 hover:scale-110 shadow-lg touch-manipulation"
+                    className="w-16 h-16 md:w-14 md:h-14 bg-gradient-to-r from-passion-500 to-romance-600 rounded-full flex items-center justify-center hover:from-passion-600 hover:to-romance-700 transition-all duration-200 hover:scale-110 shadow-lg touch-manipulation active:scale-95"
                     aria-label="Add Friend"
                   >
-                    <Heart className="w-6 h-6 text-white fill-current" />
+                    <Heart className="w-7 h-7 md:w-6 md:h-6 text-white fill-current" />
                   </button>
                 </div>
 
