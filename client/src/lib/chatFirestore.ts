@@ -15,8 +15,7 @@ import {
   setDoc,
   arrayUnion,
   increment
-} from "firebase/firestore";
-import { db } from "../firebaseConfig";
+} from "./firestoreWrapper";
 
 // Types for chat messages
 export interface ChatMessage {
