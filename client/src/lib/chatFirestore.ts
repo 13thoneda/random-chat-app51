@@ -80,7 +80,7 @@ export async function createOrGetChatRoom(user1Id: string, user2Id: string, user
   try {
     // Create a consistent room ID regardless of user order
     const roomId = [user1Id, user2Id].sort().join('_');
-    const chatRoomRef = doc(db, "chatRooms", roomId);
+    const chatRoomRef = doc("chatRooms", roomId);
     const chatRoomSnap = await getDoc(chatRoomRef);
 
     if (!chatRoomSnap.exists()) {
