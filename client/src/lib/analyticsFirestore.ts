@@ -13,8 +13,8 @@ import {
   limit,
   getDocs,
   increment
-} from "firebase/firestore";
-import { db, analytics } from "../firebaseConfig";
+} from "./firestoreWrapper";
+import { analytics } from "../firebaseConfig";
 import { logEvent, setUserId, setUserProperties } from "firebase/analytics";
 
 // Types for analytics
