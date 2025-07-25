@@ -26,10 +26,10 @@ interface CoinContextType {
   setPendingAds: (count: number) => void;
 }
 
-const CoinContext = createContext<CoinContextType | null>(null);
+const CoinContext = React.createContext<CoinContextType | null>(null);
 
 export const useCoin = () => {
-  const context = useContext(CoinContext);
+  const context = React.useContext(CoinContext);
   if (!context) {
     throw new Error("useCoin must be used within a CoinProvider");
   }
@@ -37,17 +37,17 @@ export const useCoin = () => {
 };
 
 interface CoinProviderProps {
-  children: ReactNode;
+  children: React.ReactNode;
 }
 
 export const CoinProvider = ({ children }: CoinProviderProps) => {
-  const [coins, setCoins] = useState(0);
-  const [adsWatchedToday, setAdsWatchedToday] = useState(0);
-  const [canClaimDailyBonus, setCanClaimDailyBonus] = useState(true);
-  const [currentStreak, setCurrentStreak] = useState(0);
-  const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [currentUser, setCurrentUser] = useState<string | null>(null);
+  const [coins, setCoins] = React.useState(0);
+  const [adsWatchedToday, setAdsWatchedToday] = React.useState(0);
+  const [canClaimDailyBonus, setCanClaimDailyBonus] = React.useState(true);
+  const [currentStreak, setCurrentStreak] = React.useState(0);
+  const [hasCompletedOnboarding, setHasCompletedOnboarding] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(true);
+  const [currentUser, setCurrentUser] = React.useState<string | null>(null);
   const [pendingAds, setPendingAds] = useState(0);
 
   const maxAdsPerDay = 3;
