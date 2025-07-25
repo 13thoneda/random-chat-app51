@@ -25,7 +25,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const mockMatching = MockMatchingService.getInstance();
 
   // Add error handling
-  useEffect(() => {
+  React.useEffect(() => {
     const handleError = (event: ErrorEvent) => {
       console.error("Socket Provider Error:", event.error);
     };
