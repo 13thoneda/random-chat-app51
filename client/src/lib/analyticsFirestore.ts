@@ -361,7 +361,7 @@ export async function trackFeatureUsage(
       sessionId
     };
 
-    await addDoc(collection(db, "featureUsage"), featureUsage);
+    await addDoc(collection("featureUsage"), featureUsage);
 
     // Log to Firebase Analytics
     if (analytics) {
