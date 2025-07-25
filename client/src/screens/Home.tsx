@@ -144,12 +144,8 @@ export default function Home() {
       setIsConnecting(true);
       playSound("join");
 
-      // Navigate immediately to video chat page (it will handle the waiting state)
-      navigate("/video-chat", {
-        state: {
-          isSearching: true,
-        },
-      });
+      // Navigate to chat list to see recent conversations
+      navigate("/chat-list");
 
       setIsConnecting(false);
     },
