@@ -183,6 +183,10 @@ export default function VideoChat() {
     if (state?.friendCall) {
       setIsFriendCall(true);
       setPartnerName(state.friendName || "Friend");
+      // For friend calls, use minimal details since they're already friends
+      setPartnerAge(25);
+      setPartnerLocation("Friend");
+      setPartnerImage("");
       // Show rewarded ad for friend calls
       setTimeout(() => {
         alert("🎬 Enjoy your call! Another ad will show after the call ends.");
